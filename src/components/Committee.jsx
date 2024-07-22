@@ -13,6 +13,7 @@ function Committee() {
       const [temp,setTemp]=useState(0);
       const [showPopup, setShowPopup] = useState(false);
       const [data,SetData]=useState(true);
+      
 
       const navigate = useNavigate();
       const handleInputChange = (event) => {
@@ -104,6 +105,20 @@ function Committee() {
        };
   return (
     <div className='w-full h-full border border-3 shadow-sm p-3 mb-5 bg-body-tertiary rounded bg-slate-50'>
+         {showPopup && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white p-6 rounded shadow-lg text-center">
+            <h2 className="text-xl font-semibold mb-4">Conference ID Missing</h2>
+            <p className="mb-4">Please select a conference to proceed.</p>
+            <button
+              onClick={handleRedirect}
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            >
+              Go to Conference Selection
+            </button>
+          </div>
+        </div>
+      )}
      {data ? (
   <div>Loading..</div>
      ):(

@@ -3,6 +3,8 @@ import { getalltracks } from '../services/ConferenceServices';
 import { getallauthorworksbytrack } from '../services/ConferenceServices';
 import { getallreviewersbytrack } from '../services/ConferenceServices';
 import { createPaperallot } from '../services/ConferenceServices';
+import { useNavigate } from 'react-router-dom';
+
 
 const PaperManagement = () => {
   // Sample data for the table
@@ -19,8 +21,11 @@ const PaperManagement = () => {
   ];
 
   const[tracks,setTracks]=useState([]);
- 
+  const [showPopup, setShowPopup] = useState(false);
+
   const[reviewers,setReviewers]=useState([]);
+  const navigate = useNavigate();
+
 
   useEffect(()=>{
     const conference_id=sessionStorage.getItem('con');
@@ -30,6 +35,8 @@ const PaperManagement = () => {
       }).catch((err)=>{
    
       })
+    }else{
+      setShowPopup(true);
     }
  
   },[] )
@@ -174,10 +181,27 @@ const PaperManagement = () => {
         alert(errorMessage);
       });
   };
-  
+  const handleRedirect = () => {
+    // history.push('/another-page'); // Change '/another-page' to the actual path you want to redirect to
+    navigate('/select-conference');
+   };
   
   return (
     <div className="p-4 space-y-4 md:space-y-0 md:grid md:grid-cols-1 md:gap-4 bg-slate-50">
+     {showPopup && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white p-6 rounded shadow-lg text-center">
+            <h2 className="text-xl font-semibold mb-4">Conference ID Missing</h2>
+            <p className="mb-4">Please select a conference to proceed.</p>
+            <button
+              onClick={handleRedirect}
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            >
+              Go to Conference Selection
+            </button>
+          </div>
+        </div>
+      )}
       {success && (
   <div
     className="flex items-center justify-center p-4 mb-4 text-sm text-green-700 bg-green-100 rounded-lg dark:bg-green-200 dark:text-green-800"

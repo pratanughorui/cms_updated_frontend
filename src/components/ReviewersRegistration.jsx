@@ -1,6 +1,8 @@
 import React,{useState,useEffect} from 'react'
 import { getalltracks } from '../services/ConferenceServices';
 import { createReviewers } from '../services/ConferenceServices';
+import { useNavigate } from 'react-router-dom';
+
 function ReviewersRegistration() {
   const [oldmembers, setOldmembers] = useState([]);
   const [tracks,setTracks]=useState([]);
@@ -14,6 +16,9 @@ function ReviewersRegistration() {
   const [reviewers, setReviewers] = useState([]);
   const [selectedTrack,setSelectedTrack]=useState('');
   const [success, setSuccess] = useState(false);
+  const [showPopup, setShowPopup] = useState(false);
+  const navigate = useNavigate();
+
 
   // Handle form submission
   const handleSubmit = (e) => {
@@ -45,6 +50,8 @@ function ReviewersRegistration() {
       }).catch((err)=>{
    
       })
+    }else{
+      setShowPopup(true);
     }
  
   },[]);
@@ -73,9 +80,27 @@ function ReviewersRegistration() {
   })
 
   }
+  const handleRedirect = () => {
+    // history.push('/another-page'); // Change '/another-page' to the actual path you want to redirect to
+    navigate('/select-conference');
+   };
   
   return (
     <div className='w-full h-full border border-3 shadow-sm p-3 mb-5 bg-body-tertiary rounded overflow-auto bg-slate-50'>
+     {showPopup && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white p-6 rounded shadow-lg text-center">
+            <h2 className="text-xl font-semibold mb-4">Conference ID Missing</h2>
+            <p className="mb-4">Please select a conference to proceed.</p>
+            <button
+              onClick={handleRedirect}
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            >
+              Go to Conference Selection
+            </button>
+          </div>
+        </div>
+      )}
       <div className='md:flex justify-between'>
       <div className='m-2 md:m-4'>
             <h2 className='text-xl md:text-2xl text font-semibold text-indigo-800'>Conference Name : </h2>
