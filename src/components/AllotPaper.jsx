@@ -1,4 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
+import { getalltracks } from '../services/ConferenceServices';
+import { getallauthorworksbytrack } from '../services/ConferenceServices';
+import { getallreviewersbytrack } from '../services/ConferenceServices';
+import { createPaperallot } from '../services/ConferenceServices';
 
 const PaperManagement = () => {
   // Sample data for the table
@@ -14,21 +18,30 @@ const PaperManagement = () => {
     { author: 'Frank Miller', date: '22/07/1991', profession: 'Product Owner' }
   ];
 
-  const data = [
-    { reviewer: 'John Doe', date: '24/05/1995' },
-    { reviewer: 'Jane Doe', date: '04/11/1980' },
-    { reviewer: 'Gary Barlow', date: '24/05/1995' },
-    { reviewer: 'John Doe', date: '24/05/1995' },
-    { reviewer: 'Jane Doe', date: '04/11/1980' },
-    { reviewer: 'Gary Barlow', date: '24/05/1995' },
-    { reviewer: 'John Doe', date: '24/05/1995' },
-    { reviewer: 'Jane Doe', date: '04/11/1980' },
-    { reviewer: 'Gary Barlow', date: '24/05/1995' },
-  ];
+  const[tracks,setTracks]=useState([]);
+ 
+  const[reviewers,setReviewers]=useState([]);
+
+  useEffect(()=>{
+    const conference_id=sessionStorage.getItem('con');
+    if(conference_id){
+      getalltracks(conference_id).then((res)=>{
+        setTracks(res.data);
+      }).catch((err)=>{
+   
+      })
+    }
+ 
+  },[] )
 
   // State management
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
+  const [selectedPaper,setSelectedPaper]=useState('');
+  const [selectedPaperId,setSelectedPaperId]=useState('');
+  const [selectedReviewerName,setSelectedReviewerName]=useState('');
+  const [selectedReviewerId,setSelectedReviewerId]=useState('');
+  const [success, setSuccess] = useState(false);
   const itemsPerPage = 5;
 
   // Filter data based on the search term
@@ -48,15 +61,150 @@ const PaperManagement = () => {
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
+  const[papers,setPapers]=useState([]);
+  const handleTrackChange = (event) => {
+    const trackId = event.target.value;
+    //setSelectedTrackId(trackId);
+    console.log('Selected track ID:', trackId);
+    getallauthorworksbytrack(trackId).then((res)=>{
+      if (res.data && Array.isArray(res.data)) {
+        setPapers(res.data);
+      } else {
+        setPapers([]);
+       // console.log('No data found for this track');
+      }
+    }).catch((err)=>{
+      
+    })
+    getallreviewersbytrack(trackId).then((res)=>{
+      setReviewers(res.data);
+    }).catch(()=>{
 
+    })
+  };
+
+  const handleRowClick = (id,name) => {
+    setSelectedPaper(name);
+    setSelectedPaperId(id);
+    // Add any additional logic you need here
+  };
+  const handleSelectChange = (event) => {
+    const selectedId = event.target.value;
+    const selectedReviewer = reviewers.find(reviewer => reviewer._id === selectedId);
+    if (selectedReviewer) {
+      // console.log("Selected Reviewer ID:", selectedReviewer._id);
+      // console.log("Selected Reviewer Name:", selectedReviewer.name);
+      // Add any additional logic you need here
+      setSelectedReviewerId(selectedReviewer._id)
+      setSelectedReviewerName(selectedReviewer.name);
+    }
+  };
+  const[data,setData]=useState([]);
+  const handleAdd=(e)=>{
+    e.preventDefault();
+    const newData = { reviewer: selectedReviewerName, paper: selectedPaper,reviewer_id:selectedReviewerId,authorwork_id:selectedPaperId };
+    setData([...data, newData]);
+  }
+  const handleDelete = (index) => {
+    setData(data.filter((_, i) => i !== index));
+  };
+  const handleAllDelete = () => {
+    setData([]);
+  };
+  const finalsubmit = () => {
+    if (data.length <= 0) {
+      alert('Please select data');
+      return;
+    }
+  
+    // Function to check for duplicates based on reviewer_id and authorwork_id
+    const hasDuplicates = () => {
+      const seen = new Set();
+      for (const item of data) {
+        const key = `${item.reviewer_id}-${item.authorwork_id}`;
+        if (seen.has(key)) {
+          return true;
+        }
+        seen.add(key);
+      }
+      return false;
+    };
+  
+    if (hasDuplicates()) {
+      alert('Duplicate entries found.');
+      return;
+    }
+  
+    // If no duplicates, proceed with processing data
+    const outputData = data.map((item) => ({
+      reviewer_id: item.reviewer_id,
+      authorwork_id: item.authorwork_id,
+    }));
+  
+    createPaperallot(outputData)
+      .then((res) => {
+        setSuccess(true);
+        handleAllDelete();
+  
+        // Clear success message after 5 seconds
+        setTimeout(() => {
+          setSuccess(false);
+        }, 5000); // 5000 milliseconds = 5 seconds
+      })
+      .catch((err) => {
+        let errorMessage = 'An error occurred. Please try again later.'; // Default error message
+  
+        if (err.response) {
+          if (err.response.status === 400) {
+            // Handle specific duplicate data error here
+            errorMessage = err.response.data.error || 'Duplicate data error.';
+          } else if (err.response.status === 500) {
+            // Handle other server-side errors
+            errorMessage = 'Server error. Please try again later.';
+          } else {
+            // Handle other HTTP errors
+            errorMessage = `Error ${err.response.status}: ${err.response.statusText}`;
+          }
+        } else if (err.message) {
+          // Handle network errors or unexpected errors
+          errorMessage = err.message;
+        }
+  
+        // Display error message to the user
+        alert(errorMessage);
+      });
+  };
+  
+  
   return (
     <div className="p-4 space-y-4 md:space-y-0 md:grid md:grid-cols-1 md:gap-4 bg-slate-50">
+      {success && (
+  <div
+    className="flex items-center justify-center p-4 mb-4 text-sm text-green-700 bg-green-100 rounded-lg dark:bg-green-200 dark:text-green-800"
+    role="alert"
+  >
+    <svg
+      aria-hidden="true"
+      className="w-5 h-5 mr-3"
+      fill="currentColor"
+      viewBox="0 0 20 20"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        fillRule="evenodd"
+        d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-4.293-3.707a1 1 0 00-1.414 0L9 9.586 7.707 8.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l5-5a1 1 0 000-1.414z"
+        clipRule="evenodd"
+      ></path>
+    </svg>
+    <span className="font-medium">Success!</span> assigned paper to reviewer successfully!
+  </div>
+)}
     {/* Row 1 */}
     <div className="md:grid md:grid-cols-2 md:gap-4">
       {/* Column 1 */}
       <div className="bg-white p-4 border border-zinc-700 rounded shadow-md">
         <div className='text-xl mb-4 text-center'>Allotment Of Papers</div>
-        <form>
+        <form onSubmit={handleAdd} >
           <div className='mb-4'>
             <label
               htmlFor="track"
@@ -67,16 +215,15 @@ const PaperManagement = () => {
                 id="track"
                 name="track"
                 className="mt-1 w-full border-none p-0 focus:border-transparent focus:outline-none focus:ring-0 sm:text-sm"
+                onChange={handleTrackChange}
                 required
               >
-                <option>Select an option</option>
-                <option value="<100">&lt;100</option>
-                <option value="<500">&lt;500</option>
-                <option value="<1000">&lt;1000</option>
-                <option value="<2000">&lt;2000</option>
-                <option value="<5000">&lt;5000</option>
-                <option value="<10000">&lt;10000</option>
-                <option value="<20000">&lt;20000</option>
+                <option selected>Select an option</option>
+                {tracks.map((track) => (
+        <option key={track._id} value={track._id}>
+          {track.track_name}
+        </option>
+      ))}
               </select>
             </label>
           </div>
@@ -90,16 +237,15 @@ const PaperManagement = () => {
                 id="reviewers"
                 name="reviewers"
                 className="mt-1 w-full border-none p-0 focus:border-transparent focus:outline-none focus:ring-0 sm:text-sm"
+                onChange={handleSelectChange}
                 required
               >
                 <option>Select an option</option>
-                <option value="<100">&lt;100</option>
-                <option value="<500">&lt;500</option>
-                <option value="<1000">&lt;1000</option>
-                <option value="<2000">&lt;2000</option>
-                <option value="<5000">&lt;5000</option>
-                <option value="<10000">&lt;10000</option>
-                <option value="<20000">&lt;20000</option>
+                {reviewers.map((reviewer) => (
+        <option key={reviewer._id} value={reviewer._id}>
+          {reviewer.name}
+        </option>
+      ))}
               </select>
             </label>
           </div>
@@ -114,6 +260,7 @@ const PaperManagement = () => {
                 id="paper"
                 name="paper"
                 className="mt-1 w-full border-none p-0 focus:border-transparent focus:outline-none focus:ring-0 sm:text-sm"
+                value={selectedPaper}
                 required
               />
             </label>
@@ -171,16 +318,16 @@ const PaperManagement = () => {
                 <thead className="ltr:text-left rtl:text-right">
                   <tr>
                     <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Author</th>
-                    <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Date</th>
-                    <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Profession</th>
+                    <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Title</th>
+                    
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200">
-                  {currentItems.map((item, index) => (
-                    <tr key={index}>
-                      <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{item.author}</td>
-                      <td className="whitespace-nowrap px-4 py-2 text-gray-700">{item.date}</td>
-                      <td className="whitespace-nowrap px-4 py-2 text-gray-700">{item.profession}</td>
+                  {papers.map((item, index) => (
+                    <tr key={index} onClick={() => handleRowClick(item._id,item.title)}>
+                      <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{item.name}</td>
+                      <td className="whitespace-nowrap px-4 py-2 text-gray-700">{item.title}</td>
+                     
                     </tr>
                   ))}
                 </tbody>
@@ -262,7 +409,6 @@ const PaperManagement = () => {
         <thead className="ltr:text-left rtl:text-right">
           <tr>
             <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Reviewer</th>
-            <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Date</th>
             <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Paper</th>
             <th className="px-4 py-2"></th>
           </tr>
@@ -272,13 +418,14 @@ const PaperManagement = () => {
           {data.map((item, index) => (
             <tr key={index}>
               <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{item.reviewer}</td>
-              <td className="whitespace-nowrap px-4 py-2 text-gray-700">{item.date}</td>
+              
               <td className="whitespace-nowrap px-4 py-2 text-gray-700">{item.paper}</td>
               <td className="whitespace-nowrap px-4 py-2">
                 <span className="inline-flex overflow-hidden rounded-md border bg-white shadow-sm">
                   <button
                     className="inline-block p-3 text-gray-700 hover:bg-gray-50 focus:relative"
                     title="Delete Product"
+                    onClick={() => handleDelete(index)}
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -312,6 +459,7 @@ const PaperManagement = () => {
 <a
   className="inline-block rounded border border-indigo-600 bg-indigo-600 px-7 py-2 text-sm font-medium text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500"
   href="#"
+  onClick={finalsubmit}
 >
   submit
 </a>
@@ -321,6 +469,7 @@ const PaperManagement = () => {
 <a
   className="inline-block rounded border ml-3 border-indigo-600 px-7 py-2 text-sm font-medium text-indigo-600 hover:bg-indigo-600 hover:text-white focus:outline-none focus:ring active:bg-indigo-500"
   href="#"
+  onClick={handleAllDelete}
 >
   Delete
 </a>

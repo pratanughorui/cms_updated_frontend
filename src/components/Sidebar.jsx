@@ -7,7 +7,7 @@ const Sidebar = () => {
 
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth >= 768) {
+      if (window.innerWidth >= 800) {
         setOpen(true);
       } else {
         setOpen(false);
@@ -38,17 +38,29 @@ const Sidebar = () => {
         { title: 'Committee', path: '/committee' },
         { title: 'Members', path: '/Members' },
         { title: 'Track', path: '/tracks' },
-        { title: 'Reviewers', path: '/select-conference/sub4' },
+        { title: 'Reviewers', path: '/reviewers-registration' },
         { title: 'Check Plagiarism', path: '/select-conference/sub5' },
         { title: 'Send for Copyright', path: '/select-conference/sub6' },
-        { title: 'Author Registration', path: '/select-conference/sub7' },
+        { title: 'Author Registration', path: '/authors-registration' },
       ],
     },
     // Add more menus with submenus as needed
     { title: 'Reviewer Invitation', src: 'User', path: '/reviewer-invitation' },
     { title: 'Allot Paper', src: 'Calendar', path: '/allot-paper' },
     { title: 'Review Format', src: 'Search', path: '/review-format' },
-    { title: 'Report', src: 'Chart', path: '/report' },
+    { title: 'Report', src: 'Chart', path: '/select-conference',subMenu: [
+         {title:'List of papers',path:'/listofpapers'},
+         {title:'Authors wise list of papers',path:'/authorwisepapers'},
+         {title:'TPC Members',path:'/tpcmembers'},
+         {title:'List of reviewers',path:'/listofreviewers'},
+         {title:'List of First Authors',path:'/listoffirstauthors'},
+         {title:'List of all authors',path:'/Listofallauthors'},
+         {title:'List of papers with status and last date of upload',path:'/papers_status_last_upload_date'},
+         {title:'List of papers with reviewers',path:'/papers_with_reviewers'},
+         {title:'List of papers allotted to the reviewers',path:'/paper_allot_reviewer_report'},
+         {title:'List of papers sent for copy right',path:'/paper_sent_copy_right'},
+         {title:'List of committee members',path:'/list_committee_members'},
+    ] }
   ];
 
   const toggleSubMenu = (index) => {
@@ -57,13 +69,13 @@ const Sidebar = () => {
 
   return (
     <div className="flex">
-      <div className={` ${open ? 'w-72' : 'w-20 '} bg-dark-purple h-screen p-5 pt-8 relative duration-300`}>
+      <div className={` ${open ? 'w-72' : 'w-20 '} bg-yellow-500 h-screen p-5 pt-8 relative duration-300` }>
         <img
           src="./src/assets/control.png"
           className={`absolute cursor-pointer -right-3 top-9 w-7 border-dark-purple border-2 rounded-full ${!open && 'rotate-180'}`}
           onClick={() => setOpen(!open)}
         />
-        <div className="flex gap-x-4 items-center">
+        {/* <div className="flex gap-x-4 items-center">
           <img
             src="./src/assets/logo.png"
             className={`cursor-pointer duration-500 ${open && 'rotate-[360deg]'}`}
@@ -71,14 +83,14 @@ const Sidebar = () => {
           <h1
             className={`text-white origin-left font-medium text-xl duration-200 ${!open && 'scale-0'}`}
           >
-            Designer
+            
           </h1>
-        </div>
+        </div> */}
         <ul className="pt-6">
           {Menus.map((Menu, index) => (
             <li key={index} className="relative">
               <Link to={Menu.path}><div
-                className={`flex rounded-md p-2 cursor-pointer hover:bg-light-white text-gray-300 text-sm items-center gap-x-4 ${Menu.gap ? 'mt-9' : 'mt-2'} ${index === 0 && 'bg-light-white'}`}
+                className={`flex rounded-md p-2 cursor-pointer hover:bg-light-white text-black text-sm items-center gap-x-4 ${Menu.gap ? 'mt-9' : 'mt-2'} ${index === 0 && 'bg-light-white'}`}
                 onClick={() => toggleSubMenu(index)}
               >
                 <img src={`./src/assets/${Menu.src}.png`} />
@@ -89,7 +101,7 @@ const Sidebar = () => {
               {Menu.subMenu && activeMenu === index && (
                 <ul className={`${!open && 'hidden'} pl-12 mt-2 space-y-2`}>
                   {Menu.subMenu.map((subMenuItem, subIndex) => (
-                    <li key={subIndex} className={`text-gray-300 text-sm ml-4`}>
+                    <li key={subIndex} className={`text-black text-sm ml-4`}>
                       <Link to={subMenuItem.path} className={`hover:text-white`}>
                         {subMenuItem.title}
                       </Link>

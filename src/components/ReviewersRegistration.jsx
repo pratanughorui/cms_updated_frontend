@@ -1,163 +1,106 @@
 import React,{useState,useEffect} from 'react'
-import { getallcommittees,createCommitteeMembers,gellAllusersBeforDate } from '../services/ConferenceServices';
-
-function MemberRegistration() {
+import { getalltracks } from '../services/ConferenceServices';
+import { createReviewers } from '../services/ConferenceServices';
+function ReviewersRegistration() {
   const [oldmembers, setOldmembers] = useState([]);
-  const [committees, setCommittees] = useState([]);
-  const [members, setMembers] = useState([]);
+  const [tracks,setTracks]=useState([]);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
-  const [address, setAddress] = useState('');
-  const [place, setPlace] = useState('');
-  const [state, setState] = useState('');
+  const [affiliation, setAffiliation] = useState('');
   const [country, setCountry] = useState('');
   const [mobile, setMobile] = useState('');
-  const [role, setRole] = useState('');
-  const [selectedCommittee, setSelectedCommittee] = useState('');
+  const [googleScholarId, setGoogleScholarId] = useState('');
+  const [orcidId, setOrcidId] = useState('');
+  const [reviewers, setReviewers] = useState([]);
+  const [selectedTrack,setSelectedTrack]=useState('');
   const [success, setSuccess] = useState(false);
-  const [showPopup, setShowPopup] = useState(false);
-  const [conference_name,setConference_name]=useState('');
-  const [selectedRows, setSelectedRows] = useState([]);
 
-
-  useEffect(()=>{
-    const conference_id=sessionStorage.getItem('con');
-    if(conference_id){
-      getallcommittees(conference_id).then((res)=>{
-       setCommittees(res.data.committee);
-       setConference_name(res.data.conferenceName);
-      // console.log(res.data);
-       setTemp(0);
-       
-      }).catch((err)=>{
-
-      })
-    }else{
-      setShowPopup(true);
-    }
-   },[]);
-   const handleSubmit = (event) => {
-    event.preventDefault();
+  // Handle form submission
+  const handleSubmit = (e) => {
+    e.preventDefault();
     const formData = {
       name,
       email,
-      address,
-      place,
-      state,
+      affiliation,
       country,
       mobile,
-      role
+      googleScholarId,
+      orcidId,
     };
-    const isEmailExist = members.some(member => member.email === formData.email);
+    const isEmailExist = reviewers.some(reviewers => reviewers.email === formData.email);
 
   if (isEmailExist) {
     alert('Email already exists! Please use a different email.');
     return; // Exit function if email already exists
   }
-    setMembers([...members,formData]);
-    //console.log('Form Data:', formData);
-    // You can add more code here to handle form submission, e.g., send the data to a server
+    setReviewers([...reviewers,formData]);
+    console.log('Form Data:', formData);
   };
-  const deleteEach = (email) => {
-    setMembers(members.filter(member => member.email !== email));
-   //console.log(email);
-  };
-  const allclose=()=>{
-    setMembers([]);
-  }
+
+  useEffect(()=>{
+    const conference_id=sessionStorage.getItem('con');
+    if(conference_id){
+      getalltracks(conference_id).then((res)=>{
+        setTracks(res.data);
+      }).catch((err)=>{
+   
+      })
+    }
+ 
+  },[]);
   const finalsave=()=>{
-    if(!selectedCommittee){
-      alert("select committee first");
+    if(!selectedTrack){
+      alert("select track first");
       return;
     }
     const transformedData = {
-      "members": members.map(item => ({
-        "name": item.name,
-        "address":item.address,
-        "place":item.place,
-        "state":item.state,
-        "country": item.country,
-        "mobile": item.mobile,
-        "role":item.role,
-        "email": item.email
+      "reviewers": reviewers.map(item => ({
+          "name": item.name,
+          "affiliation": item.affiliation,
+          "country": item.country,
+          // "password": item.password,
+          "mobile": item.mobile,
+          "email": item.email
       }))
-      
   };
-    createCommitteeMembers(transformedData,selectedCommittee).then((res)=>{
-       //console.log('success');
-       setSuccess(true);
-       allclose();
-    }).catch((err)=>{
-
-    })
-  }
-  const getoldmembers=()=>{
-    const conference_id=sessionStorage.getItem('con');
-    if(conference_id){
-      gellAllusersBeforDate(conference_id).then((res)=>{
-        setOldmembers(res.data);
-      }).catch((err)=>{
-
-      })
-    }
+  createReviewers(transformedData,selectedTrack).then((Response)=>{
+    setSuccess(true);
+    setReviewers([]);
+    
+    
+  }).catch((err)=>{
+      console.log(err);
+  })
 
   }
-  const handleRowClick = (id) => {
-    setSelectedRows((prevSelectedRows) =>
-      prevSelectedRows.includes(id)
-        ? prevSelectedRows.filter(rowId => rowId !== id)
-        : [...prevSelectedRows, id]
-    );
-  };
-
-  const handleOldMembers = () => {
-    const selectedData = oldmembers.filter(member => selectedRows.includes(member._id));
-    console.log(selectedData); // Do something with the selected data
-  };
-  // Handle Add button click
-  const handleAddClick = () => {
-    const selectedMembers = oldmembers.filter(member =>
-      selectedRows.includes(member._id)
-    );
-
-    const duplicateMembers = selectedMembers.filter(member =>
-      members.some(existingMember => existingMember._id === member._id)
-    );
-
-    if (duplicateMembers.length > 0) {
-      window.alert('Some of the selected members are already added.');
-    } else {
-      setMembers((prevMembers) => [...prevMembers, ...selectedMembers]);
-      console.log(selectedMembers); // or process the selected members as needed
-    }
-  };
+  
   return (
     <div className='w-full h-full border border-3 shadow-sm p-3 mb-5 bg-body-tertiary rounded overflow-auto bg-slate-50'>
       <div className='md:flex justify-between'>
       <div className='m-2 md:m-4'>
-            <h2 className='text-xl md:text-2xl text font-semibold text-indigo-800'>Conference Name : {conference_name}</h2>
+            <h2 className='text-xl md:text-2xl text font-semibold text-indigo-800'>Conference Name : </h2>
         </div>
         <div>
               <label
                 htmlFor="expectedSubmissions"
                 className="block overflow-hidden rounded-md border border-gray-200 px-3 py-2 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600"
               >
-                <span className="text-xs font-medium text-gray-700">Select Committee</span>
+                <span className="text-xs font-medium text-gray-700">Select Track</span>
                 <select
-      id="expectedSubmissions"
-      name="expectedSubmissions"
-      className="mt-1 w-full border-none p-0 focus:border-transparent focus:outline-none focus:ring-0 sm:text-sm"
-      required
-      value={selectedCommittee}
-      onChange={(event) => setSelectedCommittee(event.target.value)}
-    >
-      <option value="" disabled>Select an option</option>
-      {committees.map((committee) => (
-        <option key={committee._id} value={committee._id}>
-          {committee.committee_name}
+  id="expectedSubmissions"
+  name="expectedSubmissions"
+  className="mt-1 w-full border-none p-0 focus:border-transparent focus:outline-none focus:ring-0 sm:text-sm"
+  value={selectedTrack}
+  onChange={(event) => setSelectedTrack(event.target.value)}
+  required
+>
+  <option value="" disabled>Select an option</option>
+  {tracks.map((track) => (
+        <option key={track._id} value={track._id}>
+          {track.track_name}
         </option>
       ))}
-    </select>
+</select>
 
               </label>
             </div>
@@ -208,71 +151,25 @@ function MemberRegistration() {
 
       {/* row2 */}
       <div className="p-3 space-y-4 md:space-y-0 md:space-x-4 md:flex">
-        {/* Address Field */}
         <div className="flex-1">
           <label
-            htmlFor="address"
+            htmlFor="affiliation"
             className="block overflow-hidden rounded-md border border-gray-200 px-3 py-2 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600"
           >
             <span className="text-xs font-medium text-gray-700">
-              Address<span style={{ color: 'red' }}>*</span>
+              Affiliation<span style={{ color: 'red' }}>*</span>
             </span>
             <input
               type="text"
-              id="address"
-              name="address"
+              id="affiliation"
+              name="affiliation"
               className="mt-1 w-full border-none p-0 focus:border-transparent focus:outline-none focus:ring-0 sm:text-sm"
-              value={address}
-              onChange={(e) => setAddress(e.target.value)}
+              value={affiliation}
+              onChange={(e) => setAffiliation(e.target.value)}
               required
             />
           </label>
         </div>
-        {/* Place Field */}
-        <div className="flex-1">
-          <label
-            htmlFor="place"
-            className="block overflow-hidden rounded-md border border-gray-200 px-3 py-2 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600"
-          >
-            <span className="text-xs font-medium text-gray-700">
-              Place<span style={{ color: 'red' }}>*</span>
-            </span>
-            <input
-              type="text"
-              id="place"
-              name="place"
-              className="mt-1 w-full border-none p-0 focus:border-transparent focus:outline-none focus:ring-0 sm:text-sm"
-              value={place}
-              onChange={(e) => setPlace(e.target.value)}
-              required
-            />
-          </label>
-        </div>
-        {/* State Field */}
-        <div className="flex-1">
-          <label
-            htmlFor="state"
-            className="block overflow-hidden rounded-md border border-gray-200 px-3 py-2 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600"
-          >
-            <span className="text-xs font-medium text-gray-700">
-              State<span style={{ color: 'red' }}>*</span>
-            </span>
-            <input
-              type="text"
-              id="state"
-              name="state"
-              className="mt-1 w-full border-none p-0 focus:border-transparent focus:outline-none focus:ring-0 sm:text-sm"
-              value={state}
-              onChange={(e) => setState(e.target.value)}
-              required
-            />
-          </label>
-        </div>
-      </div>
-
-      {/* row3 */}
-      <div className="p-3 space-y-4 md:space-y-0 md:space-x-4 md:flex">
-        {/* Country Field */}
         <div className="flex-1">
           <label
             htmlFor="country"
@@ -292,7 +189,6 @@ function MemberRegistration() {
             />
           </label>
         </div>
-        {/* Mobile Field */}
         <div className="flex-1">
           <label
             htmlFor="mobile"
@@ -312,100 +208,121 @@ function MemberRegistration() {
             />
           </label>
         </div>
-        {/* Role Field */}
+      </div>
+
+      {/* row3 */}
+      <div className="p-3 space-y-4 md:space-y-0 md:space-x-4 md:flex">
         <div className="flex-1">
           <label
-            htmlFor="role"
+            htmlFor="googleScholarId"
             className="block overflow-hidden rounded-md border border-gray-200 px-3 py-2 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600"
           >
-            <span className="text-xs font-medium text-gray-700">Role</span>
+            <span className="text-xs font-medium text-gray-700">
+              Google Scholar ID<span style={{ color: 'red' }}>*</span>
+            </span>
             <input
               type="text"
-              id="role"
-              name="role"
+              id="googleScholarId"
+              name="googleScholarId"
               className="mt-1 w-full border-none p-0 focus:border-transparent focus:outline-none focus:ring-0 sm:text-sm"
-              value={role}
-              onChange={(e) => setRole(e.target.value)}
+              value={googleScholarId}
+              onChange={(e) => setGoogleScholarId(e.target.value)}
+              required
+            />
+          </label>
+        </div>
+        <div className="flex-1">
+          <label
+            htmlFor="orcidId"
+            className="block overflow-hidden rounded-md border border-gray-200 px-3 py-2 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600"
+          >
+            <span className="text-xs font-medium text-gray-700">
+              ORCID ID<span style={{ color: 'red' }}>*</span>
+            </span>
+            <input
+              type="text"
+              id="orcidId"
+              name="orcidId"
+              className="mt-1 w-full border-none p-0 focus:border-transparent focus:outline-none focus:ring-0 sm:text-sm"
+              value={orcidId}
+              onChange={(e) => setOrcidId(e.target.value)}
               required
             />
           </label>
         </div>
       </div>
 
-      {/* for button */}
       <div className='flex items-center justify-center mt-3'>
         <button
           className="inline-block rounded border border-indigo-600 bg-indigo-600 px-6 py-1 text-sm font-medium text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500"
           type="submit"
+      
         >
           Save
         </button>
       </div>
     </form>
-
+        
       </div>
       {/* ----------------- */}
       <div className='w-full h-auto md:flex'>
-      <div className='mt-4 w-full h-96 border border-3 shadow-sm'>
-      <div className='text-center text-xl font-semibold'>
-        <h2>Old Members</h2>
-      </div>
-      {/* for old members table */}
-      <div className='mt-2 w-full h-72 overflow-auto'>
-        <table className="min-w-full divide-y divide-gray-200">
-          <thead className="bg-gray-50">
-            <tr>
-              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Name
-              </th>
-              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Email
-              </th>
-            </tr>
-          </thead>
-          <tbody className="bg-white divide-y divide-gray-200">
-            {oldmembers.map((member) => (
-              <tr
-                key={member._id}
-                onClick={() => handleRowClick(member._id)}
-                className={`cursor-pointer ${selectedRows.includes(member._id) ? 'bg-gray-200' : ''}`}
-              >
-                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                  {member.name}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                  {member.email}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-      {/* for buttons */}
-      <div className='flex justify-center gap-3'>
-        <div className='flex items-center justify-center mt-3'>
-          <button
-            className="inline-block rounded border border-indigo-600 bg-indigo-600 px-6 py-1 text-sm font-medium text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500"
-            type="button"
-            onClick={getoldmembers}
-          >
-            Old Members
-          </button>
-        </div>
-        <div className='flex items-center justify-center mt-3'>
-          <button
-            className="inline-block rounded border border-indigo-600 bg-indigo-600 px-6 py-1 text-sm font-medium text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500"
-            type="button"
-            onClick={handleAddClick}
-          >
-            Add
-          </button>
-        </div>
-      </div>
-    </div>
         <div className='mt-4 w-full h-96 border border-3 shadow-sm'>
         <div className='text-center text-xl font-semibold'>
-        <h2>Members For </h2>
+        <h2>Old Reviewers</h2>
+      </div>
+      {/* for old members table */}
+       <div className='mt-2  w-full h-72 overflow-auto'>
+       <table className="min-w-full divide-y divide-gray-200">
+        <thead className="bg-gray-50">
+          <tr>
+            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Name
+            </th>
+
+            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Email
+            </th>
+           
+          </tr>
+        </thead>
+        <tbody className="bg-white divide-y divide-gray-200">
+          {oldmembers.map((member) => (
+            <tr key={member.id}>
+              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                {member.name}
+              </td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                {member.email}
+              </td>
+              
+            </tr>
+          ))}
+        </tbody>
+      </table>
+       </div>
+        {/* for button */}
+        <div className='flex justify-center gap-3'>
+        <div className='flex items-center justify-center mt-3'>
+  <button
+    className="inline-block rounded border border-indigo-600 bg-indigo-600 px-6 py-1 text-sm font-medium text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500"
+    type="submit"
+  >
+    Old Reviewers
+  </button>
+</div>
+<div className='flex items-center justify-center mt-3'>
+  <button
+    className="inline-block rounded border border-indigo-600 bg-indigo-600 px-6 py-1 text-sm font-medium text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500"
+    type="submit"
+  >
+    Add
+  </button>
+</div>
+        </div>
+        </div>
+        <div className='mt-4 w-full h-96 border border-3 shadow-sm'>
+        <div className='text-center text-xl font-semibold'>
+        <h2>Reviewers For </h2>
       </div>
       {success && (
   <div
@@ -425,7 +342,7 @@ function MemberRegistration() {
         clipRule="evenodd"
       ></path>
     </svg>
-    <span className="font-medium">Success!</span> Members Added successfully!
+    <span className="font-medium">Success!</span> Reviewers Added successfully!
   </div>
 )}
      <div className='mt-2  w-full h-72 overflow-auto'>
@@ -447,18 +364,21 @@ function MemberRegistration() {
           </tr>
         </thead>
         <tbody className="bg-white divide-y divide-gray-200">
-          {members.map((member) => (
+          {reviewers.map((reviewer) => (
             <tr>
               <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                {member.name}
+                {reviewer.name}
               </td>
               <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                {member.email}
+                {reviewer.email}
               </td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 cursor-pointer" onClick={()=>deleteEach(member.email)}>
-                
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                <button
+                  // onClick={() => removeCommittee(committee.id)}
+                  className="text-red-600 hover:text-red-900"
+                >
                   ✖
-                
+                </button>
               </td>
               
             </tr>
@@ -480,7 +400,9 @@ function MemberRegistration() {
   <button
     className="inline-block rounded border border-indigo-600 bg-indigo-600 px-6 py-1 text-sm font-medium text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500"
     type="submit"
-    onClick={()=>allclose()}
+    onClick={()=>{
+      setReviewers([]);
+    }}
   >
     Close
   </button>
@@ -492,4 +414,4 @@ function MemberRegistration() {
   )
 }
 
-export default MemberRegistration
+export default ReviewersRegistration
