@@ -6,6 +6,8 @@ import { useNavigate } from 'react-router-dom';
 function TrackRegistration() {
   const [tracks, setTracks] = useState([]);
   const [inputValue, setInputValue] = useState('');
+  const [conference_name, setConference_name] = useState([]);
+
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -19,7 +21,8 @@ function TrackRegistration() {
     if (conference_id) {
       getalltracks(conference_id)
         .then((res) => {
-          setTracks(res.data);
+          setTracks(res.data.tracks);
+          setConference_name(res.data.conferenceName);
         })
         .catch((err) => {
           console.error(err);
@@ -132,7 +135,7 @@ function TrackRegistration() {
         </div>
       )}</div>
       <div className='w-full m-6'>
-        <h2 className='text-2xl text font-semibold text-indigo-800'>Conference Name :</h2>
+        <h2 className='text-2xl text font-semibold text-indigo-800'>Conference Name : {conference_name}</h2>
       </div>
       <div className='w-full md:flex'>
         {/* for form */}

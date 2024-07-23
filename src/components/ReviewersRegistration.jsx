@@ -17,6 +17,8 @@ function ReviewersRegistration() {
   const [selectedTrack,setSelectedTrack]=useState('');
   const [success, setSuccess] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
+  const [conference_name, setConference_name] = useState([]);
+
   const navigate = useNavigate();
 
 
@@ -46,7 +48,9 @@ function ReviewersRegistration() {
     const conference_id=sessionStorage.getItem('con');
     if(conference_id){
       getalltracks(conference_id).then((res)=>{
-        setTracks(res.data);
+        setTracks(res.data.tracks);
+        setConference_name(res.data.conferenceName);
+
       }).catch((err)=>{
    
       })
@@ -103,7 +107,7 @@ function ReviewersRegistration() {
       )}
       <div className='md:flex justify-between'>
       <div className='m-2 md:m-4'>
-            <h2 className='text-xl md:text-2xl text font-semibold text-indigo-800'>Conference Name : </h2>
+            <h2 className='text-xl md:text-2xl text font-semibold text-indigo-800'>Conference Name : {conference_name}</h2>
         </div>
         <div>
               <label

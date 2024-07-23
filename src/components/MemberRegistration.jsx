@@ -132,6 +132,7 @@ function MemberRegistration() {
       setMembers((prevMembers) => [...prevMembers, ...selectedMembers]);
       console.log(selectedMembers); // or process the selected members as needed
     }
+    setSelectedRows([]);
   };
   const handleRedirect = () => {
     // history.push('/another-page'); // Change '/another-page' to the actual path you want to redirect to

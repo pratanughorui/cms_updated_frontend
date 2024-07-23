@@ -1,6 +1,6 @@
 import axios from "axios";
-const REST_API_BASE_URL="https://conference-management-backend-withnode-1.onrender.com";
- //const REST_API_BASE_URL="http://localhost:3030";
+//const REST_API_BASE_URL="https://conference-management-backend-withnode-1.onrender.com";
+ const REST_API_BASE_URL="http://localhost:3030";
 export const listConference=()=>axios.get(REST_API_BASE_URL);  
 //create authors
 export const createAuthorWork = (authorwork,trackid,conferenceId,pdffile) => {
@@ -8,7 +8,8 @@ export const createAuthorWork = (authorwork,trackid,conferenceId,pdffile) => {
      const formData = new FormData();
      formData.append("pdf",pdffile);
     //  const authorData = {
-    //   name: authorwork.name,
+    //   name: authorwork.name,   
+    
     //   address: authorwork.address,
     //   state: authorwork.state,
     //   country: authorwork.country,
@@ -305,7 +306,7 @@ export const report_fetchcommitteemembers=(conference_id)=>{
         export const reviewsubmit=(formdata)=>{
           return axios.post(`${REST_API_BASE_URL}/reviewer/reviewsubmit/`,formdata);
           }
-export const gellAllusersBeforDate=()=>{
+export const gellAllusersBeforDate=(conference_id)=>{
            
             return axios.get(`${REST_API_BASE_URL}/member/allmembersexcurr/${conference_id}`);
           };
