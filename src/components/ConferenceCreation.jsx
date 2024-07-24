@@ -68,7 +68,7 @@ function ConferenceCreation() {
   }
 
   return (
-    <div className='w-full h-full border-3 shadow-sm p-3 mb-5 bg-body-tertiary rounded bg-slate-50 overflow-auto'>
+    <div className='w-full h-full border-3 shadow-sm p-3 mt-6  mb-5 bg-body-tertiary rounded bg-slate-50 overflow-auto'>
       
       <div className='flex items-center justify-center text-5xl m-5'>Create Conference</div>
       <div>
@@ -281,7 +281,8 @@ function ConferenceCreation() {
   </div>
 )}
             <div className="flex justify-center mt-6">
-              <button type="submit" className="rounded-md bg-blue-500 px-4 py-2 text-sm font-medium text-white shadow hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1">
+              <button type="submit"  className="inline-block rounded border border-indigo-600 bg-indigo-600 px-7 py-2 text-sm font-medium  bg-slate-300 text-black hover:bg-slate-500 hover:text-white focus:outline-none focus:ring active:text-indigo-500"
+              >
                 Submit
               </button>
             </div>

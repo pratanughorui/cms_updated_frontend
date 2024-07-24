@@ -356,7 +356,7 @@ function MemberRegistration() {
       {/* for button */}
       <div className='flex items-center justify-center mt-3'>
         <button
-          className="inline-block rounded border border-indigo-600 bg-indigo-600 px-6 py-1 text-sm font-medium text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500"
+          className="inline-block rounded border border-indigo-600 bg-indigo-600 px-7 py-2 text-sm font-medium  bg-slate-300 text-black hover:bg-slate-500 hover:text-white focus:outline-none focus:ring active:text-indigo-500"
           type="submit"
         >
           Save
@@ -406,8 +406,8 @@ function MemberRegistration() {
       <div className='flex justify-center gap-3'>
         <div className='flex items-center justify-center mt-3'>
           <button
-            className="inline-block rounded border border-indigo-600 bg-indigo-600 px-6 py-1 text-sm font-medium text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500"
-            type="button"
+          className="inline-block rounded border border-indigo-600 bg-indigo-600 px-7 py-2 text-sm font-medium  bg-slate-300 text-black hover:bg-slate-500 hover:text-white focus:outline-none focus:ring active:text-indigo-500"
+          type="button"
             onClick={getoldmembers}
           >
             Old Members
@@ -415,8 +415,8 @@ function MemberRegistration() {
         </div>
         <div className='flex items-center justify-center mt-3'>
           <button
-            className="inline-block rounded border border-indigo-600 bg-indigo-600 px-6 py-1 text-sm font-medium text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500"
-            type="button"
+          className="inline-block rounded border border-indigo-600 bg-indigo-600 px-7 py-2 text-sm font-medium  bg-slate-300 text-black hover:bg-slate-500 hover:text-white focus:outline-none focus:ring active:text-indigo-500"
+          type="button"
             onClick={handleAddClick}
           >
             Add
@@ -490,8 +490,8 @@ function MemberRegistration() {
      <div className='flex justify-center gap-3'>
         <div className='flex items-center justify-center mt-3'>
   <button
-    className="inline-block rounded border border-indigo-600 bg-indigo-600 px-6 py-1 text-sm font-medium text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500"
-    type="submit"
+          className="inline-block rounded border border-indigo-600 bg-indigo-600 px-7 py-2 text-sm font-medium  bg-slate-300 text-black hover:bg-slate-500 hover:text-white focus:outline-none focus:ring active:text-indigo-500"
+          type="submit"
     onClick={()=>finalsave()}
   >
     Save
@@ -499,8 +499,8 @@ function MemberRegistration() {
 </div>
 <div className='flex items-center justify-center mt-3'>
   <button
-    className="inline-block rounded border border-indigo-600 bg-indigo-600 px-6 py-1 text-sm font-medium text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500"
-    type="submit"
+          className="inline-block rounded border border-indigo-600 bg-indigo-600 px-7 py-2 text-sm font-medium  bg-slate-300 text-black hover:bg-slate-500 hover:text-white focus:outline-none focus:ring active:text-indigo-500"
+          type="submit"
     onClick={()=>allclose()}
   >
     Close

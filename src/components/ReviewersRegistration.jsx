@@ -283,7 +283,7 @@ function ReviewersRegistration() {
 
       <div className='flex items-center justify-center mt-3'>
         <button
-          className="inline-block rounded border border-indigo-600 bg-indigo-600 px-6 py-1 text-sm font-medium text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500"
+          className="inline-block rounded border border-indigo-600 bg-indigo-600 px-7 py-2 text-sm font-medium  bg-slate-300 text-black hover:bg-slate-500 hover:text-white focus:outline-none focus:ring active:text-indigo-500"
           type="submit"
       
         >
@@ -333,16 +333,16 @@ function ReviewersRegistration() {
         <div className='flex justify-center gap-3'>
         <div className='flex items-center justify-center mt-3'>
   <button
-    className="inline-block rounded border border-indigo-600 bg-indigo-600 px-6 py-1 text-sm font-medium text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500"
-    type="submit"
+          className="inline-block rounded border border-indigo-600 bg-indigo-600 px-7 py-2 text-sm font-medium  bg-slate-300 text-black hover:bg-slate-500 hover:text-white focus:outline-none focus:ring active:text-indigo-500"
+          type="submit"
   >
     Old Reviewers
   </button>
 </div>
 <div className='flex items-center justify-center mt-3'>
   <button
-    className="inline-block rounded border border-indigo-600 bg-indigo-600 px-6 py-1 text-sm font-medium text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500"
-    type="submit"
+          className="inline-block rounded border border-indigo-600 bg-indigo-600 px-7 py-2 text-sm font-medium  bg-slate-300 text-black hover:bg-slate-500 hover:text-white focus:outline-none focus:ring active:text-indigo-500"
+          type="submit"
   >
     Add
   </button>
@@ -418,8 +418,8 @@ function ReviewersRegistration() {
      <div className='flex justify-center gap-3'>
         <div className='flex items-center justify-center mt-3'>
   <button
-    className="inline-block rounded border border-indigo-600 bg-indigo-600 px-6 py-1 text-sm font-medium text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500"
-    type="submit"
+          className="inline-block rounded border border-indigo-600 bg-indigo-600 px-7 py-2 text-sm font-medium  bg-slate-300 text-black hover:bg-slate-500 hover:text-white focus:outline-none focus:ring active:text-indigo-500"
+          type="submit"
     onClick={()=>finalsave()}
   >
     Save
@@ -427,8 +427,8 @@ function ReviewersRegistration() {
 </div>
 <div className='flex items-center justify-center mt-3'>
   <button
-    className="inline-block rounded border border-indigo-600 bg-indigo-600 px-6 py-1 text-sm font-medium text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500"
-    type="submit"
+          className="inline-block rounded border border-indigo-600 bg-indigo-600 px-7 py-2 text-sm font-medium  bg-slate-300 text-black hover:bg-slate-500 hover:text-white focus:outline-none focus:ring active:text-indigo-500"
+          type="submit"
     onClick={()=>{
       setReviewers([]);
     }}

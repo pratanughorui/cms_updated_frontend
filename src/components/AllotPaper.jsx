@@ -31,7 +31,7 @@ const PaperManagement = () => {
     const conference_id=sessionStorage.getItem('con');
     if(conference_id){
       getalltracks(conference_id).then((res)=>{
-        setTracks(res.data);
+        setTracks(res.data.tracks);
       }).catch((err)=>{
    
       })
@@ -481,8 +481,8 @@ const PaperManagement = () => {
         {/* Base */}
 
 <a
-  className="inline-block rounded border border-indigo-600 bg-indigo-600 px-7 py-2 text-sm font-medium text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500"
-  href="#"
+          className="inline-block rounded border border-indigo-600 bg-indigo-600 px-7 py-2 text-sm font-medium  bg-slate-300 text-black hover:bg-slate-500 hover:text-white focus:outline-none focus:ring active:text-indigo-500"
+          href="#"
   onClick={finalsubmit}
 >
   submit
@@ -491,8 +491,8 @@ const PaperManagement = () => {
 {/* Border */}
 
 <a
-  className="inline-block rounded border ml-3 border-indigo-600 px-7 py-2 text-sm font-medium text-indigo-600 hover:bg-indigo-600 hover:text-white focus:outline-none focus:ring active:bg-indigo-500"
-  href="#"
+          className="inline-block rounded border border-indigo-600 bg-indigo-600 px-7 py-2 text-sm font-medium  bg-slate-300 text-black hover:bg-slate-500 hover:text-white focus:outline-none focus:ring active:text-indigo-500"
+          href="#"
   onClick={handleAllDelete}
 >
   Delete

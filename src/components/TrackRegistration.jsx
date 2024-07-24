@@ -156,7 +156,7 @@ function TrackRegistration() {
               />
               <button
                 type="button"
-                className="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-normal rounded-lg text-sm px-3 py-1 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                className="text-black absolute end-2.5 bottom-2.5  bg-slate-300  hover:bg-slate-500 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-normal rounded-lg text-sm px-3 py-1 " 
                 onClick={handleAddClick}
               >
                 ADD
@@ -180,8 +180,8 @@ function TrackRegistration() {
           </div>
           <div className='flex items-center justify-center mt-6'>
             <a
-              className="inline-block rounded border border-indigo-600 bg-indigo-600 px-7 py-2 text-sm font-medium text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500"
-              href="#"
+          className="inline-block rounded border border-indigo-600 bg-indigo-600 px-7 py-2 text-sm font-medium  bg-slate-300 text-black hover:bg-slate-500 hover:text-white focus:outline-none focus:ring active:text-indigo-500"
+          href="#"
               onClick={handleforsave}
             >
               Save
