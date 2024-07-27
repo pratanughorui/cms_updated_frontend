@@ -14,7 +14,7 @@ function ReviewInvitation() {
     if (conference_id) {
       getalltracks(conference_id)
         .then((res) => {
-          setTracks(res.data);
+          setTracks(res.data.tracks);
         })
         .catch((err) => {
           // Handle error

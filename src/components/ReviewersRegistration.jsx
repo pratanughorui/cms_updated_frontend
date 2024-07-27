@@ -1,7 +1,8 @@
 import React,{useState,useEffect} from 'react'
-import { getalltracks } from '../services/ConferenceServices';
+import { gellAllreviewersBeforDate, getalltracks } from '../services/ConferenceServices';
 import { createReviewers } from '../services/ConferenceServices';
 import { useNavigate } from 'react-router-dom';
+
 
 function ReviewersRegistration() {
   const [oldmembers, setOldmembers] = useState([]);
@@ -14,10 +15,14 @@ function ReviewersRegistration() {
   const [googleScholarId, setGoogleScholarId] = useState('');
   const [orcidId, setOrcidId] = useState('');
   const [reviewers, setReviewers] = useState([]);
-  const [selectedTrack,setSelectedTrack]=useState('');
+  const [selectedTrack, setSelectedTrack] = useState({ id: "", name: "" });
   const [success, setSuccess] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
   const [conference_name, setConference_name] = useState([]);
+  const [selectedRows, setSelectedRows] = useState([]);
+  const [members, setMembers] = useState([]);
+  const [selectedTrackName,setSelectedTrackName]=useState('');
+
 
   const navigate = useNavigate();
 
@@ -59,8 +64,15 @@ function ReviewersRegistration() {
     }
  
   },[]);
+
+  const handleTrackChange = (event) => {
+    const selectedTrackId = event.target.value;
+    const selectedTrack = tracks.find(track => track._id === selectedTrackId);
+    setSelectedTrack({ id: selectedTrack._id, name: selectedTrack.track_name });
+  };
+
   const finalsave=()=>{
-    if(!selectedTrack){
+    if(!selectedTrack.id){
       alert("select track first");
       return;
     }
@@ -74,7 +86,7 @@ function ReviewersRegistration() {
           "email": item.email
       }))
   };
-  createReviewers(transformedData,selectedTrack).then((Response)=>{
+  createReviewers(transformedData,selectedTrack.id).then((Response)=>{
     setSuccess(true);
     setReviewers([]);
     
@@ -88,6 +100,46 @@ function ReviewersRegistration() {
     // history.push('/another-page'); // Change '/another-page' to the actual path you want to redirect to
     navigate('/select-conference');
    };
+  const getoldreviewers=()=>{
+    const conference_id=sessionStorage.getItem('con');
+    if(conference_id){
+      gellAllreviewersBeforDate(conference_id).then((res)=>{
+        setOldmembers(res.data);
+      }).catch((err)=>{
+
+      })
+    }
+  }
+  
+  const handleRowClick = (id) => {
+    setSelectedRows((prevSelectedRows) =>
+      prevSelectedRows.includes(id)
+        ? prevSelectedRows.filter(rowId => rowId !== id)
+        : [...prevSelectedRows, id]
+    );
+  };
+
+  const handleAddClick = () => {
+    const selectedMembers = oldmembers.filter(member =>
+      selectedRows.includes(member._id)
+    );
+
+    const duplicateMembers = selectedMembers.filter(member =>
+      reviewers.some(existingMember => existingMember._id === member._id)
+    );
+
+    if (duplicateMembers.length > 0) {
+      window.alert('Some of the selected members are already added.');
+    } else {
+      setReviewers((prevMembers) => [...prevMembers, ...selectedMembers]);
+      console.log(selectedMembers); // or process the selected members as needed
+    }
+    setSelectedRows([]);
+  };
+  const deleteEach = (email) => {
+    setReviewers(reviewers.filter(member => member.email !== email));
+   //console.log(email);
+  };
   
   return (
     <div className='w-full h-full border border-3 shadow-sm p-3 mb-5 bg-body-tertiary rounded overflow-auto bg-slate-50'>
@@ -110,29 +162,29 @@ function ReviewersRegistration() {
             <h2 className='text-xl md:text-2xl text font-semibold text-indigo-800'>Conference Name : {conference_name}</h2>
         </div>
         <div>
-              <label
-                htmlFor="expectedSubmissions"
-                className="block overflow-hidden rounded-md border border-gray-200 px-3 py-2 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600"
-              >
-                <span className="text-xs font-medium text-gray-700">Select Track</span>
-                <select
-  id="expectedSubmissions"
-  name="expectedSubmissions"
-  className="mt-1 w-full border-none p-0 focus:border-transparent focus:outline-none focus:ring-0 sm:text-sm"
-  value={selectedTrack}
-  onChange={(event) => setSelectedTrack(event.target.value)}
-  required
->
-  <option value="" disabled>Select an option</option>
-  {tracks.map((track) => (
+  <label
+    htmlFor="expectedSubmissions"
+    className="block overflow-hidden rounded-md border border-gray-200 px-3 py-2 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600"
+  >
+    <span className="text-xs font-medium text-gray-700">Select Track</span>
+    <select
+      id="expectedSubmissions"
+      name="expectedSubmissions"
+      className="mt-1 w-full border-none p-0 focus:border-transparent focus:outline-none focus:ring-0 sm:text-sm"
+      value={selectedTrack.id}
+      onChange={handleTrackChange}
+      required
+    >
+      <option value="" disabled>Select an option</option>
+      {tracks.map((track) => (
         <option key={track._id} value={track._id}>
           {track.track_name}
         </option>
       ))}
-</select>
+    </select>
+  </label>
+</div>
 
-              </label>
-            </div>
       </div>
       <div>
         {/* row1 */}
@@ -316,7 +368,11 @@ function ReviewersRegistration() {
         </thead>
         <tbody className="bg-white divide-y divide-gray-200">
           {oldmembers.map((member) => (
-            <tr key={member.id}>
+            <tr key={member.id}
+            onClick={() => handleRowClick(member._id)}
+            className={`cursor-pointer ${selectedRows.includes(member._id) ? 'bg-gray-200' : ''}`}
+            >
+
               <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                 {member.name}
               </td>
@@ -335,6 +391,7 @@ function ReviewersRegistration() {
   <button
           className="inline-block rounded border border-indigo-600 bg-indigo-600 px-7 py-2 text-sm font-medium  bg-slate-300 text-black hover:bg-slate-500 hover:text-white focus:outline-none focus:ring active:text-indigo-500"
           type="submit"
+          onClick={getoldreviewers}
   >
     Old Reviewers
   </button>
@@ -343,6 +400,7 @@ function ReviewersRegistration() {
   <button
           className="inline-block rounded border border-indigo-600 bg-indigo-600 px-7 py-2 text-sm font-medium  bg-slate-300 text-black hover:bg-slate-500 hover:text-white focus:outline-none focus:ring active:text-indigo-500"
           type="submit"
+          onClick={handleAddClick}
   >
     Add
   </button>
@@ -351,7 +409,7 @@ function ReviewersRegistration() {
         </div>
         <div className='mt-4 w-full h-96 border border-3 shadow-sm'>
         <div className='text-center text-xl font-semibold'>
-        <h2>Reviewers For </h2>
+        <h2>Reviewers For {selectedTrack.name} </h2>
       </div>
       {success && (
   <div
@@ -405,6 +463,7 @@ function ReviewersRegistration() {
                 <button
                   // onClick={() => removeCommittee(committee.id)}
                   className="text-red-600 hover:text-red-900"
+                  onClick={()=>deleteEach(reviewer.email)}
                 >
                   ✖
                 </button>

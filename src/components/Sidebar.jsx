@@ -45,7 +45,7 @@ const Sidebar = () => {
       ],
     },
     // Add more menus with submenus as needed
-    { title: 'Reviewer Invitation', src: 'User', path: '/reviewer-invitation' },
+    { title: 'Reviewer Invitation', path: '/reviewer-invitation' },
     { title: 'Allot Paper', src: 'Calendar', path: '/allot-paper' },
     { title: 'Review Format', src: 'Search', path: '/review-format' },
     { title: 'Report', src: 'Chart', path: '/select-conference',subMenu: [
@@ -93,7 +93,7 @@ const Sidebar = () => {
                 className={`flex rounded-md p-2 cursor-pointer hover:bg-light-white text-black text-sm items-center gap-x-4 ${Menu.gap ? 'mt-9' : 'mt-2'} ${index === 0 && 'bg-light-white'}`}
                 onClick={() => toggleSubMenu(index)}
               >
-                <img src={`./src/assets/${Menu.src}.png`} />
+                {/* <img src={`./src/assets/${Menu.src}.png`} /> */}
                 <span className={`${!open && 'hidden'} origin-left duration-200`}>
                   {Menu.title}
                 </span>

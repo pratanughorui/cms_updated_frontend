@@ -5,6 +5,8 @@ import './index.css'
 import Admin_Layout from './Admin_Layout.jsx'
 import ConferenceCreation from './components/ConferenceCreation.jsx'
 import ConferenceSelection from './components/ConferenceSelection.jsx'
+import AuthorRegistration from './components/AuthorRegistration.jsx'
+import ReviewPaper from './components/ReviewPaper.jsx'
 import {
   createBrowserRouter,
   RouterProvider,
@@ -12,26 +14,30 @@ import {
 
 // const router=createBrowserRouter([
 //   {
-//     path:'/',
-//     element:<Admin_Layout/>,
-//     children:[
-//       {
-//         path:'create-conference',
-//         element:<ConferenceCreation/>
-//       },
-//       {
-//         path:'create-selection',
-//         element:<ConferenceSelection/>
-//       }
-//     ]
+//     path:'/authors-registration',
+//     element:<AuthorRegistration/>
 //   },{
-//     path:'/create-conference',
-//     element:<ConferenceCreation/>
+//     path:'/review-format',
+//     element:<ReviewPaper />
 //   }
 // ])
+
+{/* <Route
+          path="/authors-registration"
+          element={<AuthorRegistration />}
+        />
+        <Route
+          path="/review-format"
+          element={<ReviewPaper />}
+        /> */}
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <App />
   </React.StrictMode>,
-)
+);
+// ReactDOM.createRoot(document.getElementById('root1')).render(
+//   <React.StrictMode>
+//     <RouterProvider router={router} />
+//   </React.StrictMode>
+// );

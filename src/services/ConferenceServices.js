@@ -85,14 +85,7 @@ export const gellAllAuthors=(conference_id)=>{
 export const gellAllReviewers=(conference_id)=>{
   return axios.get(`http://localhost:9090/Reviewer/getallreviwers/${conference_id}`);
 }
-export const gellAllreviewersBeforDate=()=>{
-  const conference_id=sessionStorage.getItem('con');
-  if (!conference_id) {
-   
-    throw new Error('Conference ID not found in session storage.');
-  }
-  return axios.get(`${REST_API_BASE_URL}/reviewer/allreviewersexcurr/${conference_id}`)
-};
+
 
 export const getallpaperandtrackbyconid=()=>{
   const conference_id=sessionStorage.getItem('con');
@@ -309,4 +302,8 @@ export const report_fetchcommitteemembers=(conference_id)=>{
 export const gellAllusersBeforDate=(conference_id)=>{
            
             return axios.get(`${REST_API_BASE_URL}/member/allmembersexcurr/${conference_id}`);
+          };
+          export const gellAllreviewersBeforDate=(conference_id)=>{
+           
+            return axios.get(`${REST_API_BASE_URL}/reviewer/allreviewersexcurr/${conference_id}`)
           };
