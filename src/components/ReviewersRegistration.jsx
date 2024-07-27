@@ -1,5 +1,5 @@
 import React,{useState,useEffect} from 'react'
-import { gellAllreviewersBeforDate, getalltracks } from '../services/ConferenceServices';
+import { gellAllreviewersBeforDate, getalltracks,getallreviewersbytrack } from '../services/ConferenceServices';
 import { createReviewers } from '../services/ConferenceServices';
 import { useNavigate } from 'react-router-dom';
 
@@ -22,6 +22,8 @@ function ReviewersRegistration() {
   const [selectedRows, setSelectedRows] = useState([]);
   const [members, setMembers] = useState([]);
   const [selectedTrackName,setSelectedTrackName]=useState('');
+  const [existingreviewers,setExistingreviewers]=useState([]);
+
   const [data,SetData]=useState(true);
 
 
@@ -32,6 +34,10 @@ function ReviewersRegistration() {
   // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
+    if(!selectedTrack.id){
+      alert("select track first");
+      return;
+    }
     const formData = {
       name,
       email,
@@ -72,6 +78,11 @@ function ReviewersRegistration() {
     const selectedTrackId = event.target.value;
     const selectedTrack = tracks.find(track => track._id === selectedTrackId);
     setSelectedTrack({ id: selectedTrack._id, name: selectedTrack.track_name });
+    getallreviewersbytrack(selectedTrackId).then((res)=>{
+      setExistingreviewers(res.data);
+    }).catch((err)=>{
+
+    })
   };
 
   const finalsave=()=>{
@@ -123,6 +134,10 @@ function ReviewersRegistration() {
   };
 
   const handleAddClick = () => {
+    if(!selectedTrack.id){
+      alert("select track first");
+      return;
+    }
     const selectedMembers = oldmembers.filter(member =>
       selectedRows.includes(member._id)
     );
@@ -458,6 +473,27 @@ function ReviewersRegistration() {
           </tr>
         </thead>
         <tbody className="bg-white divide-y divide-gray-200">
+        {existingreviewers.map((reviewer) => (
+            <tr>
+              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                {reviewer.name}
+              </td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                {reviewer.email}
+              </td>
+              {/* <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                <button
+                  // onClick={() => removeCommittee(committee.id)}
+                  className="text-red-600 hover:text-red-900"
+                  onClick={()=>deleteEach(reviewer.email)}
+                >
+                  ✖
+                </button>
+              </td> */}
+              
+            </tr>
+          ))}
+          {/* ---------------------------- */}
           {reviewers.map((reviewer) => (
             <tr>
               <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">

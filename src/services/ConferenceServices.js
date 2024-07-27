@@ -307,3 +307,7 @@ export const gellAllusersBeforDate=(conference_id)=>{
            
             return axios.get(`${REST_API_BASE_URL}/reviewer/allreviewersexcurr/${conference_id}`)
           };
+          export const gellmembersbycom=(com_id)=>{
+           
+            return axios.get(`${REST_API_BASE_URL}/member/getmembersbycomid/${com_id}`)
+          };

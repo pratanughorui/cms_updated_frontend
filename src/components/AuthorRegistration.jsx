@@ -377,7 +377,7 @@ const AuthorRegistration = () => {
                 ))}
                 <button
                   type="button"
-                  className="bg-blue-500 text-white px-4 py-2 rounded"
+                  className="inline-block rounded border border-indigo-600 bg-indigo-600 px-7 py-2 text-sm font-medium  bg-slate-300 text-black hover:bg-slate-500 hover:text-white focus:outline-none focus:ring active:text-indigo-500"
                   onClick={handleAddCoAuthor}
                 >
                   Add Co-Author
@@ -386,7 +386,7 @@ const AuthorRegistration = () => {
               <div className="flex justify-center">
                 <button
                   type="submit"
-                  className="bg-blue-500 text-white px-6 py-3 rounded hover:bg-blue-700"
+                  className="inline-block rounded border border-indigo-600 bg-indigo-600 px-7 py-2 text-sm font-medium  bg-slate-300 text-black hover:bg-slate-500 hover:text-white focus:outline-none focus:ring active:text-indigo-500"
                   disabled={loading}
                 >
                   {loading ? 'Submitting...' : 'Submit'}

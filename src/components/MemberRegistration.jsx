@@ -1,5 +1,5 @@
 import React,{useState,useEffect} from 'react'
-import { getallcommittees,createCommitteeMembers,gellAllusersBeforDate } from '../services/ConferenceServices';
+import { getallcommittees,createCommitteeMembers,gellAllusersBeforDate,gellmembersbycom } from '../services/ConferenceServices';
 import { useNavigate } from 'react-router-dom';
 
 function MemberRegistration() {
@@ -19,6 +19,7 @@ function MemberRegistration() {
   const [showPopup, setShowPopup] = useState(false);
   const [conference_name,setConference_name]=useState('');
   const [selectedRows, setSelectedRows] = useState([]);
+  const [existingmambers,setExistingmambers]=useState([]);
   const [data,SetData]=useState(true);
 
   const navigate = useNavigate();
@@ -44,6 +45,10 @@ function MemberRegistration() {
    },[]);
    const handleSubmit = (event) => {
     event.preventDefault();
+    if(!selectedCommittee){
+      alert("select committee first");
+      return;
+    }
     const formData = {
       name,
       email,
@@ -122,6 +127,10 @@ function MemberRegistration() {
   };
   // Handle Add button click
   const handleAddClick = () => {
+    if(!selectedCommittee){
+      alert("select committee first");
+      return;
+    }
     const selectedMembers = oldmembers.filter(member =>
       selectedRows.includes(member._id)
     );
@@ -146,6 +155,11 @@ function MemberRegistration() {
     const selectedCommitteeId = event.target.value;
     const selectedCommittee = committees.find(committee => committee._id === selectedCommitteeId);
     setSelectedCommittee({ id: selectedCommittee._id, name: selectedCommittee.committee_name });
+    gellmembersbycom(selectedCommitteeId).then((res)=>{
+      setExistingmambers(res.data);
+    }).catch((err)=>{
+
+    })
   };
   return (
     <div className='w-full h-full border border-3 shadow-sm p-3 mb-5 bg-body-tertiary rounded overflow-auto bg-slate-50'>
@@ -481,6 +495,19 @@ function MemberRegistration() {
           </tr>
         </thead>
         <tbody className="bg-white divide-y divide-gray-200">
+        {existingmambers.map((member) => (
+            <tr>
+              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                {member.name}
+              </td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                {member.email}
+              </td>
+              
+              
+            </tr>
+          ))}
+          {/* ----------------- */}
           {members.map((member) => (
             <tr>
               <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">

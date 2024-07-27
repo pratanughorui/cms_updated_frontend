@@ -165,7 +165,8 @@ const ReviewPaper = () => {
   return (
     <div className="container mx-auto mt-8 px-4">
       <div className="mb-6">
-        <button className="bg-blue-500 text-white px-4 py-2 rounded" onClick={fetchPdfOnClick}>
+        <button           className="inline-block rounded border border-indigo-600 bg-indigo-600 px-7 py-2 text-sm font-medium  bg-slate-300 text-black hover:bg-slate-500 hover:text-white focus:outline-none focus:ring active:text-indigo-500"
+ onClick={fetchPdfOnClick}>
           View PDF
         </button>
         {pdfUrl && (
@@ -219,7 +220,8 @@ const ReviewPaper = () => {
                 ></textarea>
                 <button
                   type="button"
-                  className="bg-red-500 text-white px-4 py-2 rounded mt-2"
+                  className="inline-block rounded border border-indigo-600 bg-indigo-600 px-7 py-2 text-sm font-medium  bg-slate-300 text-black hover:bg-slate-500 hover:text-white focus:outline-none focus:ring active:text-indigo-500"
+
                   onClick={() => deleteQuestion(index)}
                 >
                   Delete
@@ -279,7 +281,7 @@ const ReviewPaper = () => {
           </div>
                 <button
                   type="button"
-                  className="bg-red-500 text-white px-4 py-2 rounded"
+                  className="inline-block rounded border border-indigo-600 bg-indigo-600 px-7 py-2 text-sm font-medium  bg-slate-300 text-black hover:bg-slate-500 hover:text-white focus:outline-none focus:ring active:text-indigo-500"
                   onClick={() => removeCriteriaField(index)}
                 >
                   Remove
@@ -290,7 +292,7 @@ const ReviewPaper = () => {
             <div className="mb-4 flex items-center">
               <button
                 type="button"
-                className="bg-blue-500 text-white px-4 py-2 rounded"
+                className="inline-block rounded border border-indigo-600 bg-indigo-600 px-7 py-2 text-sm font-medium  bg-slate-300 text-black hover:bg-slate-500 hover:text-white focus:outline-none focus:ring active:text-indigo-500"
                 onClick={addCriteriaField}
               >
                 Add Criteria
@@ -395,7 +397,8 @@ const ReviewPaper = () => {
 </div>
 
           <div className="mb-6">
-            <button type="submit" className="bg-green-500 text-white px-4 py-2 rounded">
+            <button type="submit"           className="inline-block rounded border border-indigo-600 bg-indigo-600 px-7 py-2 text-sm font-medium  bg-slate-300 text-black hover:bg-slate-500 hover:text-white focus:outline-none focus:ring active:text-indigo-500"
+            >
               Submit Review
             </button>
           </div>
