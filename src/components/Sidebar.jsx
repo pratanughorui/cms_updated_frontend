@@ -31,7 +31,7 @@ const Sidebar = () => {
       path: '/create-conference',
     },
     {
-      title: 'Select Conference',
+      title: 'Conference',
       src: 'Chat',
       path: '/select-conference',
       subMenu: [

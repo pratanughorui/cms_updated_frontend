@@ -156,7 +156,7 @@ function MemberRegistration() {
       )}
       <div className='md:flex justify-between'>
       <div className='m-2 md:m-4'>
-            <h2 className='text-xl md:text-2xl text font-semibold text-indigo-800'>Conference Name : {conference_name}</h2>
+            <h2 className='text-xl md:text-2xl text font-semibold text-black'>Conference Name : {conference_name}</h2>
         </div>
         <div>
               <label
@@ -339,7 +339,7 @@ function MemberRegistration() {
             htmlFor="role"
             className="block overflow-hidden rounded-md border border-gray-200 px-3 py-2 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600"
           >
-            <span className="text-xs font-medium text-gray-700">Role</span>
+            <span className="text-xs font-medium text-gray-700">Role<span style={{ color: 'red' }}>*</span></span>
             <input
               type="text"
               id="role"

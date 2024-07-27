@@ -161,7 +161,7 @@ function Committee() {
 )}
       </div>
        <div className='w-full m-6'>
-            <h2 className='text-2xl text font-semibold text-indigo-800'>Conference Name : {conference_name}</h2>
+            <h2 className='text-2xl text font-semibold text-black'>Conference Name : {conference_name}</h2>
         </div>
      <div className='w-full md:flex'>
         {/* for form */}

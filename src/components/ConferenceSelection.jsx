@@ -84,7 +84,7 @@ const handleConferenceChange = (event) => {
 
     {/* Column 2 */}
     <div className="md:w-3/4 w-full bg-white p-4 border border-zinc-700 rounded h-full">
-      <div className="flex items-center justify-center text-4xl mb-4">Selected Conference</div>
+      <div className="flex items-center justify-center text-4xl mb-4">Conference</div>
       <form className="space-y-6 m-3 p-5">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
@@ -92,7 +92,7 @@ const handleConferenceChange = (event) => {
               htmlFor="conferenceTitle"
               className="block overflow-hidden rounded-md border border-gray-200 px-3 py-2 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600"
             >
-              <span className="text-xs font-medium text-gray-700">Conference Title<span className="text-red-500">*</span></span>
+              <span className="text-xs font-medium text-gray-700">Conference Title</span>
               <input
                 type="text"
                 id="conferenceTitle"
@@ -142,7 +142,7 @@ const handleConferenceChange = (event) => {
               htmlFor="venue"
               className="block overflow-hidden rounded-md border border-gray-200 px-3 py-2 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600"
             >
-              <span className="text-xs font-medium text-gray-700">Venue<span className="text-red-500">*</span></span>
+              <span className="text-xs font-medium text-gray-700">Venue</span>
               <input
                 type="text"
                 id="venue"
@@ -158,7 +158,7 @@ const handleConferenceChange = (event) => {
               htmlFor="address"
               className="block overflow-hidden rounded-md border border-gray-200 px-3 py-2 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600"
             >
-              <span className="text-xs font-medium text-gray-700">Address<span className="text-red-500">*</span></span>
+              <span className="text-xs font-medium text-gray-700">Address</span>
               <input
                 type="text"
                 id="address"
@@ -176,7 +176,7 @@ const handleConferenceChange = (event) => {
               htmlFor="place"
               className="block overflow-hidden rounded-md border border-gray-200 px-3 py-2 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600"
             >
-              <span className="text-xs font-medium text-gray-700">Place<span className="text-red-500">*</span></span>
+              <span className="text-xs font-medium text-gray-700">Place</span>
               <input
                 type="text"
                 id="place"
@@ -192,7 +192,7 @@ const handleConferenceChange = (event) => {
               htmlFor="state"
               className="block overflow-hidden rounded-md border border-gray-200 px-3 py-2 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600"
             >
-              <span className="text-xs font-medium text-gray-700">State<span className="text-red-500">*</span></span>
+              <span className="text-xs font-medium text-gray-700">State</span>
               <input
                 type="text"
                 id="state"
@@ -208,7 +208,7 @@ const handleConferenceChange = (event) => {
               htmlFor="country"
               className="block overflow-hidden rounded-md border border-gray-200 px-3 py-2 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600"
             >
-              <span className="text-xs font-medium text-gray-700">Country<span className="text-red-500">*</span></span>
+              <span className="text-xs font-medium text-gray-700">Country</span>
               <input
                 type="text"
                 id="country"
@@ -226,7 +226,7 @@ const handleConferenceChange = (event) => {
               htmlFor="fromDate"
               className="block overflow-hidden rounded-md border border-gray-200 px-3 py-2 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600"
             >
-              <span className="text-xs font-medium text-gray-700">From Date<span className="text-red-500">*</span></span>
+              <span className="text-xs font-medium text-gray-700">From Date</span>
               <input
                 type="text"
                 id="fromDate"
@@ -242,7 +242,7 @@ const handleConferenceChange = (event) => {
               htmlFor="toDate"
               className="block overflow-hidden rounded-md border border-gray-200 px-3 py-2 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600"
             >
-              <span className="text-xs font-medium text-gray-700">To Date<span className="text-red-500">*</span></span>
+              <span className="text-xs font-medium text-gray-700">To Date</span>
               <input
                 type="date"
                 id="toDate"
@@ -258,7 +258,7 @@ const handleConferenceChange = (event) => {
               htmlFor="dateOfCallForPaper"
               className="block overflow-hidden rounded-md border border-gray-200 px-3 py-2 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600"
             >
-              <span className="text-xs font-medium text-gray-700">Date Of Call For Paper<span className="text-red-500">*</span></span>
+              <span className="text-xs font-medium text-gray-700">Date Of Call For Paper</span>
               <input
                 type="date"
                 id="dateOfCallForPaper"
@@ -274,7 +274,7 @@ const handleConferenceChange = (event) => {
               htmlFor="lastDateForSubmission"
               className="block overflow-hidden rounded-md border border-gray-200 px-3 py-2 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600"
             >
-              <span className="text-xs font-medium text-gray-700">Last Date For Submission Paper<span className="text-red-500">*</span></span>
+              <span className="text-xs font-medium text-gray-700">Last Date For Submission Paper</span>
               <input
                 type="date"
                 id="lastDateForSubmission"
@@ -292,7 +292,7 @@ const handleConferenceChange = (event) => {
               htmlFor="expectedSubmissions"
               className="block overflow-hidden rounded-md border border-gray-200 px-3 py-2 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600"
             >
-              <span className="text-xs font-medium text-gray-700">How Many Submissions Do You Expect<span className="text-red-500">*</span></span>
+              <span className="text-xs font-medium text-gray-700">How Many Submissions Do You Expect</span>
               <select
                 id="expectedSubmissions"
                 name="expectedSubmissions"
