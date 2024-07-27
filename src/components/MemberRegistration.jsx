@@ -19,6 +19,8 @@ function MemberRegistration() {
   const [showPopup, setShowPopup] = useState(false);
   const [conference_name,setConference_name]=useState('');
   const [selectedRows, setSelectedRows] = useState([]);
+  const [data,SetData]=useState(true);
+
   const navigate = useNavigate();
 
 
@@ -29,7 +31,9 @@ function MemberRegistration() {
        setCommittees(res.data.committee);
        setConference_name(res.data.conferenceName);
       // console.log(res.data);
+      SetData(false);
        setTemp(0);
+       
        
       }).catch((err)=>{
 
@@ -85,7 +89,7 @@ function MemberRegistration() {
       }))
       
   };
-    createCommitteeMembers(transformedData,selectedCommittee).then((res)=>{
+    createCommitteeMembers(transformedData,selectedCommittee.id).then((res)=>{
        //console.log('success');
        setSuccess(true);
        allclose();
@@ -138,6 +142,11 @@ function MemberRegistration() {
     // history.push('/another-page'); // Change '/another-page' to the actual path you want to redirect to
     navigate('/select-conference');
    };
+   const handleCommitteeChange = (event) => {
+    const selectedCommitteeId = event.target.value;
+    const selectedCommittee = committees.find(committee => committee._id === selectedCommitteeId);
+    setSelectedCommittee({ id: selectedCommittee._id, name: selectedCommittee.committee_name });
+  };
   return (
     <div className='w-full h-full border border-3 shadow-sm p-3 mb-5 bg-body-tertiary rounded overflow-auto bg-slate-50'>
        {showPopup && (
@@ -154,6 +163,10 @@ function MemberRegistration() {
           </div>
         </div>
       )}
+      {data ? (
+  <div>Loading..</div>
+     ):(
+      <>
       <div className='md:flex justify-between'>
       <div className='m-2 md:m-4'>
             <h2 className='text-xl md:text-2xl text font-semibold text-black'>Conference Name : {conference_name}</h2>
@@ -165,20 +178,20 @@ function MemberRegistration() {
               >
                 <span className="text-xs font-medium text-gray-700">Select Committee</span>
                 <select
-      id="expectedSubmissions"
-      name="expectedSubmissions"
-      className="mt-1 w-full border-none p-0 focus:border-transparent focus:outline-none focus:ring-0 sm:text-sm"
-      required
-      value={selectedCommittee}
-      onChange={(event) => setSelectedCommittee(event.target.value)}
-    >
-      <option value="" disabled>Select an option</option>
-      {committees.map((committee) => (
-        <option key={committee._id} value={committee._id}>
-          {committee.committee_name}
-        </option>
-      ))}
-    </select>
+  id="expectedSubmissions"
+  name="expectedSubmissions"
+  className="mt-1 w-full border-none p-0 focus:border-transparent focus:outline-none focus:ring-0 sm:text-sm"
+  required
+  value={selectedCommittee?.id || ""}
+  onChange={handleCommitteeChange}
+>
+  <option value="" disabled>Select an option</option>
+  {committees.map((committee) => (
+    <option key={committee._id} value={committee._id}>
+      {committee.committee_name}
+    </option>
+  ))}
+</select>
 
               </label>
             </div>
@@ -426,7 +439,7 @@ function MemberRegistration() {
     </div>
         <div className='mt-4 w-full h-96 border border-3 shadow-sm'>
         <div className='text-center text-xl font-semibold'>
-        <h2>Members For </h2>
+        <h2>Members For {selectedCommittee.name}</h2>
       </div>
       {success && (
   <div
@@ -509,6 +522,8 @@ function MemberRegistration() {
         </div>
         </div>
       </div>
+      </>
+     )}
     </div>
   )
 }

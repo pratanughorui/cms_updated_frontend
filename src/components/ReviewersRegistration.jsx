@@ -22,6 +22,8 @@ function ReviewersRegistration() {
   const [selectedRows, setSelectedRows] = useState([]);
   const [members, setMembers] = useState([]);
   const [selectedTrackName,setSelectedTrackName]=useState('');
+  const [data,SetData]=useState(true);
+
 
 
   const navigate = useNavigate();
@@ -55,6 +57,7 @@ function ReviewersRegistration() {
       getalltracks(conference_id).then((res)=>{
         setTracks(res.data.tracks);
         setConference_name(res.data.conferenceName);
+        SetData(false);
 
       }).catch((err)=>{
    
@@ -157,9 +160,13 @@ function ReviewersRegistration() {
           </div>
         </div>
       )}
+      {data ? (
+  <div>Loading..</div>
+     ):(
+      <>
       <div className='md:flex justify-between'>
       <div className='m-2 md:m-4'>
-            <h2 className='text-xl md:text-2xl text font-semibold text-indigo-800'>Conference Name : {conference_name}</h2>
+            <h2 className='text-xl md:text-2xl text font-semibold text-black'>Conference Name : {conference_name}</h2>
         </div>
         <div>
   <label
@@ -498,6 +505,8 @@ function ReviewersRegistration() {
         </div>
         </div>
       </div>
+      </>
+     )}
     </div>
   )
 }

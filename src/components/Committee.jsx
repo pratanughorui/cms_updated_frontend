@@ -123,7 +123,7 @@ function Committee() {
   <div>Loading..</div>
      ):(
       <>
-      {showPopup &&  (
+      {/* {showPopup &&  (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
           <div className="bg-white p-6 rounded shadow-lg text-center">
             <h2 className="text-xl font-semibold mb-4">Conference ID Missing</h2>
@@ -136,7 +136,7 @@ function Committee() {
             </button>
           </div>
         </div>
-      )}
+      )} */}
       <div>
       {success && (
   <div

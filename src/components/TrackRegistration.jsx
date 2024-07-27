@@ -13,6 +13,8 @@ function TrackRegistration() {
   const [success, setSuccess] = useState(false);
   const [temp, setTemp] = useState(0);
   const [showPopup, setShowPopup] = useState(false);
+  const [data,SetData]=useState(true);
+
 
   const navigate = useNavigate();
 
@@ -23,6 +25,7 @@ function TrackRegistration() {
         .then((res) => {
           setTracks(res.data.tracks);
           setConference_name(res.data.conferenceName);
+          SetData(false);
         })
         .catch((err) => {
           console.error(err);
@@ -113,6 +116,10 @@ function TrackRegistration() {
           </div>
         </div>
       )}
+      {data ? (
+  <div>Loading..</div>
+     ):(
+      <>
       <div>{success && (
         <div
           className="flex items-center justify-center p-4 mb-4 text-sm text-green-700 bg-green-100 rounded-lg dark:bg-green-200 dark:text-green-800"
@@ -135,7 +142,7 @@ function TrackRegistration() {
         </div>
       )}</div>
       <div className='w-full m-6'>
-        <h2 className='text-2xl text font-semibold text-indigo-800'>Conference Name : {conference_name}</h2>
+        <h2 className='text-2xl text font-semibold text-black'>Conference Name : {conference_name}</h2>
       </div>
       <div className='w-full md:flex'>
         {/* for form */}
@@ -225,6 +232,8 @@ function TrackRegistration() {
           </div>
         </div>
       </div>
+      </>
+     )}
     </div>
   );
 }
