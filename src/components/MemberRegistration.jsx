@@ -81,6 +81,7 @@ function MemberRegistration() {
       alert("select committee first");
       return;
     }
+    //console.log(members);
     const transformedData = {
       "members": members.map(item => ({
         "name": item.name,
@@ -99,7 +100,10 @@ function MemberRegistration() {
        setSuccess(true);
        allclose();
     }).catch((err)=>{
-
+      if (err.response && err.response.status === 400) {
+        alert(err.response.data.errors[0].error);
+      }
+      //  console.log(err.response.data.errors[0].error);
     })
   }
   const getoldmembers=()=>{

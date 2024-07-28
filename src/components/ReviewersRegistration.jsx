@@ -100,13 +100,18 @@ function ReviewersRegistration() {
           "email": item.email
       }))
   };
+  console.log(transformedData);
   createReviewers(transformedData,selectedTrack.id).then((Response)=>{
     setSuccess(true);
     setReviewers([]);
+   // console.log(Response.data);
     
     
   }).catch((err)=>{
-      console.log(err);
+    if (err.response && err.response.status === 400) {
+      // alert("Reviewer already exist");
+      alert(err.response.data.errors[0].error);
+    }
   })
 
   }
