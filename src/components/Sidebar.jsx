@@ -49,17 +49,17 @@ const Sidebar = () => {
     { title: 'Allot Paper', src: 'Calendar', path: '/allot-paper' },
     { title: 'Review Format', src: 'Search', path: '/review-format' },
     { title: 'Report', src: 'Chart', path: '/select-conference',subMenu: [
-         {title:'List of papers',path:'/listofpapers'},
-         {title:'Authors wise list of papers',path:'/authorwisepapers'},
+         {title:'List of Papers',path:'/listofpapers'},
+         {title:'Authors-wise List of Papers',path:'/authorwisepapers'},
          {title:'TPC Members',path:'/tpcmembers'},
-         {title:'List of reviewers',path:'/listofreviewers'},
+         {title:'List of Reviewers',path:'/listofreviewers'},
          {title:'List of First Authors',path:'/listoffirstauthors'},
-         {title:'List of all authors',path:'/Listofallauthors'},
-         {title:'List of papers with status and last date of upload',path:'/papers_status_last_upload_date'},
-         {title:'List of papers with reviewers',path:'/papers_with_reviewers'},
-         {title:'List of papers allotted to the reviewers',path:'/paper_allot_reviewer_report'},
-         {title:'List of papers sent for copy right',path:'/paper_sent_copy_right'},
-         {title:'List of committee members',path:'/list_committee_members'},
+         {title:'List of All Authors',path:'/Listofallauthors'},
+         {title:'List of Papers with Status and Last Date of Upload',path:'/papers_status_last_upload_date'},
+         {title:'List of Papers with Reviewers',path:'/papers_with_reviewers'},
+         {title:'List of Papers Allotted to the Reviewers',path:'/paper_allot_reviewer_report'},
+         {title:'List of Papers Sent for Copyright',path:'/paper_sent_copy_right'},
+         {title:'List of Committee Members',path:'/list_committee_members'},
     ] }
   ];
 

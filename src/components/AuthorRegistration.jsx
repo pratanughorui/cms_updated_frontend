@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { createAuthorWork } from '../services/ConferenceServices';
 import { useLoaderData } from 'react-router-dom';
 import { getAllConference } from '../services/ConferenceServices';
+import { useNavigate } from 'react-router-dom';
+import homeIcon from '../assets/home36.png';
 
 const AuthorRegistration = () => {
   const [conferenceList, setConferenceList] = useState([]);
@@ -38,6 +40,8 @@ const AuthorRegistration = () => {
     abstract: '',
     pdfFile: '',
   });
+
+  const navigate = useNavigate();  // Initialize navigate
 
   useEffect(()=>{
    getAllConference().then((res)=>{
@@ -145,14 +149,27 @@ const AuthorRegistration = () => {
     );
     setConference(selectedConferenceData);
     setTracks(selectedConferenceData.tracks);
-    console.log(selectedConferenceData.tracks)
+    console.log(selectedConferenceData.tracks);
   };
+
+  const redirectToHome = () => {
+    navigate('/select-conference'); //redirection by home icon 
+  }; 
 
   return (
     <div className="container mx-auto mt-5">
       <div className="flex justify-center">
         <div className="w-full max-w-5xl">
           <div className="bg-white shadow-md rounded-lg p-6">
+          {/* Home Icon */}
+          <div className="w-full text-left mb-4">
+              <img
+                src={homeIcon}
+                alt="Home"
+                className="w-8 h-8 cursor-pointer"
+                onClick={redirectToHome}
+              />
+            </div>
             <h3 className="text-2xl font-semibold text-center mb-4">Submit Paper</h3>
             {completionMessage && (
               <div className="alert alert-success mb-4">

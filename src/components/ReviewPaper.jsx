@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { fetchreviewer, getpdf, fetchauthorwork,reviewsubmit } from '../services/ConferenceServices';
+import { fetchreviewer, getpdf, fetchauthorwork, reviewsubmit } from '../services/ConferenceServices';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import homeIcon from '../assets/home36.png';
 
 const ReviewPaper = () => {
   const [dateReviewed, setDateReviewed] = useState('');
@@ -15,6 +17,8 @@ const ReviewPaper = () => {
   const [newQuestionText, setNewQuestionText] = useState('');
   const [selectedRecommendation, setSelectedRecommendation] = useState('');
   const [criteriaData, setCriteriaData] = useState([]);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (window.location.search) {
@@ -110,7 +114,7 @@ const ReviewPaper = () => {
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-  
+
     const data = {
       reviewerId: reviewer._id,
       paperId: authorId,
@@ -118,20 +122,20 @@ const ReviewPaper = () => {
       acceptance: selectedRecommendation,
       totalScore: calculateTotalScore()
     };
-  
+
     const allCriteriaData = criteriaData.map(criteria => ({
       max_grade: criteria.name || '',
       score: criteria.grades.find(grade => grade !== null) || 0,
       min_grade: criteria.additional || '',
     }));
-  
+
     const requestPayload = {
       name: allCriteriaData,
       review: data,
       coauthor: questionAnswers
     };
-   // console.log(requestPayload);
-  
+    // console.log(requestPayload);
+
     axios.post('http://localhost:3030/reviewer/reviewsubmit', requestPayload, {
       headers: {
         'Content-Type': 'application/json',
@@ -143,7 +147,7 @@ const ReviewPaper = () => {
       console.error('Error:', error.response ? error.response.data : error.message);
     });
   };
-  
+
 
   const addNewQuestion = () => {
     if (newQuestionText.trim() !== '') {
@@ -162,13 +166,28 @@ const ReviewPaper = () => {
     setQuestionAnswers(questionAnswers.filter((_, i) => i !== index));
   };
 
+  const redirectToHome = () => {
+    navigate('/select-conference'); //redirection by home icon 
+  };
+
   return (
     <div className="container mx-auto mt-8 px-4">
-      <div className="mb-6">
-        <button           className="inline-block rounded border border-indigo-600 bg-indigo-600 px-7 py-2 text-sm font-medium  bg-slate-300 text-black hover:bg-slate-500 hover:text-white focus:outline-none focus:ring active:text-indigo-500"
- onClick={fetchPdfOnClick}>
+      <div className="flex justify-between items-center mb-6">
+        {/* Home Icon */}
+        <div>
+          <img
+            src={homeIcon}
+            alt="Home"
+            className="cursor-pointer w-8 h-8"
+            onClick={redirectToHome}
+          />
+        </div>
+
+        <button className="inline-block text-end rounded border border-indigo-600 bg-indigo-600 px-7 py-2 text-sm font-medium  bg-slate-300 text-black hover:bg-slate-500 hover:text-white focus:outline-none focus:ring active:text-indigo-500"
+          onClick={fetchPdfOnClick}>
           View PDF
         </button>
+
         {pdfUrl && (
           <div className="mt-3">
             <embed src={pdfUrl} type="application/pdf" className="w-full h-96" />
@@ -261,9 +280,8 @@ const ReviewPaper = () => {
                     <button
                       key={gradeIndex}
                       type="button"
-                      className={`px-4 py-2 rounded mr-2 ${
-                        grade !== null ? 'bg-green-500 text-white' : 'bg-gray-300'
-                      }`}
+                      className={`px-4 py-2 rounded mr-2 ${grade !== null ? 'bg-green-500 text-white' : 'bg-gray-300'
+                        }`}
                       onClick={() => handleGradeSelection(index, gradeIndex, gradeIndex + 1)}
                     >
                       {gradeIndex + 1}
@@ -271,14 +289,14 @@ const ReviewPaper = () => {
                   ))}
                 </div>
                 <div className="mb-2">
-            <input
-              type="text"
-              className="border border-gray-300 rounded-lg px-3 py-2 w-full"
-              placeholder={`Additional Input`}
-              value={criteria.additional || ''}
-              onChange={(e) => handleAdditionalInputChange(index, e.target.value)}
-            />
-          </div>
+                  <input
+                    type="text"
+                    className="border border-gray-300 rounded-lg px-3 py-2 w-full"
+                    placeholder={`Additional Input`}
+                    value={criteria.additional || ''}
+                    onChange={(e) => handleAdditionalInputChange(index, e.target.value)}
+                  />
+                </div>
                 <button
                   type="button"
                   className="inline-block rounded border border-indigo-600 bg-indigo-600 px-7 py-2 text-sm font-medium  bg-slate-300 text-black hover:bg-slate-500 hover:text-white focus:outline-none focus:ring active:text-indigo-500"
@@ -300,104 +318,104 @@ const ReviewPaper = () => {
             </div>
 
           </div>
-<div className="mb-3">
-        <label htmlFor="totalScore" className="form-label">
-          Total Score:
-        </label>
-        <input
-          type="number"
-          className="form-control"
-          id="totalScore"
-          disabled
-          value={calculateTotalScore()}
-        />
-      </div>
-      <div className="mb-6">
-  <p className="text-gray-700 font-medium mb-2">Recommendation:</p>
-  
-  <div className="space-y-4">
-    <div className="flex items-center">
-      <input
-        type="radio"
-        className="form-radio h-4 w-4 text-blue-600"
-        id="acceptWithoutChange"
-        name="recommendation"
-        value="acceptWithoutChange"
-        checked={selectedRecommendation === "acceptWithoutChange"}
-        onChange={handleRecommendationChange}
-      />
-      <label className="ml-2 text-gray-800" htmlFor="acceptWithoutChange">
-        Accept without change – The paper can be published in its current form.
-      </label>
-    </div>
+          <div className="mb-3">
+            <label htmlFor="totalScore" className="form-label">
+              Total Score:
+            </label>
+            <input
+              type="number"
+              className="form-control"
+              id="totalScore"
+              disabled
+              value={calculateTotalScore()}
+            />
+          </div>
+          <div className="mb-6">
+            <p className="text-gray-700 font-medium mb-2">Recommendation:</p>
 
-    <div className="flex items-center">
-      <input
-        type="radio"
-        className="form-radio h-4 w-4 text-blue-600"
-        id="acceptWithSuggestedChanges"
-        name="recommendation"
-        value="acceptWithSuggestedChanges"
-        checked={selectedRecommendation === "acceptWithSuggestedChanges"}
-        onChange={handleRecommendationChange}
-      />
-      <label className="ml-2 text-gray-800" htmlFor="acceptWithSuggestedChanges">
-        Accept with suggested but not mandatory changes – The paper can be published in its current form but could be made stronger by incorporating changes suggested by reviewers found on the following page.
-      </label>
-    </div>
+            <div className="space-y-4">
+              <div className="flex items-center">
+                <input
+                  type="radio"
+                  className="form-radio h-4 w-4 text-blue-600"
+                  id="acceptWithoutChange"
+                  name="recommendation"
+                  value="acceptWithoutChange"
+                  checked={selectedRecommendation === "acceptWithoutChange"}
+                  onChange={handleRecommendationChange}
+                />
+                <label className="ml-2 text-gray-800" htmlFor="acceptWithoutChange">
+                  Accept without change – The paper can be published in its current form.
+                </label>
+              </div>
 
-    <div className="flex items-center">
-      <input
-        type="radio"
-        className="form-radio h-4 w-4 text-blue-600"
-        id="acceptWithMandatoryChanges"
-        name="recommendation"
-        value="acceptWithMandatoryChanges"
-        checked={selectedRecommendation === "acceptWithMandatoryChanges"}
-        onChange={handleRecommendationChange}
-      />
-      <label className="ml-2 text-gray-800" htmlFor="acceptWithMandatoryChanges">
-        Accept with mandatory changes – The paper cannot be published in its current form, but is provisionally accepted if the authors incorporate mandatory changes suggested by the reviewers. It is the opinion of this reviewer that the changes are relatively minor and can be incorporated in ten weeks or less. (Reviewer, please provide comments on the following page.)
-      </label>
-    </div>
+              <div className="flex items-center">
+                <input
+                  type="radio"
+                  className="form-radio h-4 w-4 text-blue-600"
+                  id="acceptWithSuggestedChanges"
+                  name="recommendation"
+                  value="acceptWithSuggestedChanges"
+                  checked={selectedRecommendation === "acceptWithSuggestedChanges"}
+                  onChange={handleRecommendationChange}
+                />
+                <label className="ml-2 text-gray-800" htmlFor="acceptWithSuggestedChanges">
+                  Accept with suggested but not mandatory changes – The paper can be published in its current form but could be made stronger by incorporating changes suggested by reviewers found on the following page.
+                </label>
+              </div>
 
-    <div className="flex items-center">
-      <input
-        type="radio"
-        className="form-radio h-4 w-4 text-blue-600"
-        id="doNotAccept"
-        name="recommendation"
-        value="doNotAccept"
-        checked={selectedRecommendation === "doNotAccept"}
-        onChange={handleRecommendationChange}
-      />
-      <label className="ml-2 text-gray-800" htmlFor="doNotAccept">
-        Do not accept – The paper cannot be accepted in its current form. (Reviewer, please provide comments on the following page.)
-      </label>
-    </div>
-  </div>
-</div>
+              <div className="flex items-center">
+                <input
+                  type="radio"
+                  className="form-radio h-4 w-4 text-blue-600"
+                  id="acceptWithMandatoryChanges"
+                  name="recommendation"
+                  value="acceptWithMandatoryChanges"
+                  checked={selectedRecommendation === "acceptWithMandatoryChanges"}
+                  onChange={handleRecommendationChange}
+                />
+                <label className="ml-2 text-gray-800" htmlFor="acceptWithMandatoryChanges">
+                  Accept with mandatory changes – The paper cannot be published in its current form, but is provisionally accepted if the authors incorporate mandatory changes suggested by the reviewers. It is the opinion of this reviewer that the changes are relatively minor and can be incorporated in ten weeks or less. (Reviewer, please provide comments on the following page.)
+                </label>
+              </div>
+
+              <div className="flex items-center">
+                <input
+                  type="radio"
+                  className="form-radio h-4 w-4 text-blue-600"
+                  id="doNotAccept"
+                  name="recommendation"
+                  value="doNotAccept"
+                  checked={selectedRecommendation === "doNotAccept"}
+                  onChange={handleRecommendationChange}
+                />
+                <label className="ml-2 text-gray-800" htmlFor="doNotAccept">
+                  Do not accept – The paper cannot be accepted in its current form. (Reviewer, please provide comments on the following page.)
+                </label>
+              </div>
+            </div>
+          </div>
 
 
 
-<div className="bg-white shadow-lg rounded-lg p-6 mt-8">
-  <div className="bg-blue-600 text-white text-lg font-semibold rounded-t-lg px-4 py-2">
-    Reviewer's Information
-  </div>
-  <div className="p-4">
-    {/* Render reviewer data if available */}
-    {reviewer && (
-      <>
-        <p className="text-gray-700 mb-2">Reviewer's Name: <span className="font-semibold">{reviewer.name}</span></p>
-        <p className="text-gray-700 mb-2">Mobile No: <span className="font-semibold">{reviewer.mobile}</span></p>
-        <p className="text-gray-700">Reviewer’s E-mail Address: <span className="font-semibold">{reviewer.email}</span></p>
-      </>
-    )}
-  </div>
-</div>
+          <div className="bg-white shadow-lg rounded-lg p-6 mt-8">
+            <div className="bg-blue-600 text-white text-lg font-semibold rounded-t-lg px-4 py-2">
+              Reviewer's Information
+            </div>
+            <div className="p-4">
+              {/* Render reviewer data if available */}
+              {reviewer && (
+                <>
+                  <p className="text-gray-700 mb-2">Reviewer's Name: <span className="font-semibold">{reviewer.name}</span></p>
+                  <p className="text-gray-700 mb-2">Mobile No: <span className="font-semibold">{reviewer.mobile}</span></p>
+                  <p className="text-gray-700">Reviewer’s E-mail Address: <span className="font-semibold">{reviewer.email}</span></p>
+                </>
+              )}
+            </div>
+          </div>
 
           <div className="mb-6">
-            <button type="submit"           className="inline-block rounded border border-indigo-600 bg-indigo-600 px-7 py-2 text-sm font-medium  bg-slate-300 text-black hover:bg-slate-500 hover:text-white focus:outline-none focus:ring active:text-indigo-500"
+            <button type="submit" className="inline-block rounded border border-indigo-600 bg-indigo-600 px-7 py-2 text-sm font-medium  bg-slate-300 text-black hover:bg-slate-500 hover:text-white focus:outline-none focus:ring active:text-indigo-500"
             >
               Submit Review
             </button>
@@ -406,7 +424,7 @@ const ReviewPaper = () => {
       </div>
 
       {/* Reviewer’s Information Section */}
- 
+
     </div>
   );
 };

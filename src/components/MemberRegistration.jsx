@@ -1,6 +1,7 @@
 import React,{useState,useEffect} from 'react'
 import { getallcommittees,createCommitteeMembers,gellAllusersBeforDate,gellmembersbycom } from '../services/ConferenceServices';
 import { useNavigate } from 'react-router-dom';
+import homeIcon from '../assets/home36.png';
 
 function MemberRegistration() {
   const [oldmembers, setOldmembers] = useState([]);
@@ -155,6 +156,11 @@ function MemberRegistration() {
     // history.push('/another-page'); // Change '/another-page' to the actual path you want to redirect to
     navigate('/select-conference');
    };
+
+   const redirectToHome = () => {
+    navigate('/select-conference'); //redirection by home icon 
+  };
+
    const handleCommitteeChange = (event) => {
     const selectedCommitteeId = event.target.value;
     const selectedCommittee = committees.find(committee => committee._id === selectedCommitteeId);
@@ -167,6 +173,15 @@ function MemberRegistration() {
   };
   return (
     <div className='w-full h-full border border-3 shadow-sm p-3 mb-5 bg-body-tertiary rounded overflow-auto bg-slate-50'>
+       {/* Home Icon */}
+      <div className="w-full text-left mb-4">
+        <img
+          src={homeIcon}
+          alt="Home"
+          className="cursor-pointer w-8 h-8"
+          onClick={redirectToHome}
+        />
+      </div>
        {showPopup && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
           <div className="bg-white p-6 rounded shadow-lg text-center">
