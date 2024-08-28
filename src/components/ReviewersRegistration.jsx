@@ -2,7 +2,7 @@ import React,{useState,useEffect} from 'react'
 import { gellAllreviewersBeforDate, getalltracks,getallreviewersbytrack } from '../services/ConferenceServices';
 import { createReviewers } from '../services/ConferenceServices';
 import { useNavigate } from 'react-router-dom';
-
+import homeIcon from '../assets/home36.png';
 
 function ReviewersRegistration() {
   const [oldmembers, setOldmembers] = useState([]);
@@ -163,9 +163,22 @@ function ReviewersRegistration() {
     setReviewers(reviewers.filter(member => member.email !== email));
    //console.log(email);
   };
+
+  const redirectToHome = () => {
+    navigate('/select-conference'); //redirection by home icon 
+  };
   
   return (
     <div className='w-full h-full border border-3 shadow-sm p-3 mb-5 bg-body-tertiary rounded overflow-auto bg-slate-50'>
+           {/* Home Icon */}
+           <div className="w-full text-left mb-4">
+        <img
+          src={homeIcon}
+          alt="Home"
+          className="cursor-pointer w-8 h-8"
+          onClick={redirectToHome}
+        />
+      </div>
      {showPopup && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
           <div className="bg-white p-6 rounded shadow-lg text-center">
