@@ -11,8 +11,10 @@ import Report from './components/Report';
 import Committee from './components/Committee';
 import MemberRegistration from './components/MemberRegistration';
 import TrackRegistration from './components/TrackRegistration';
+import PaperDetails from './components/PaperDetails';
 import Listpapers_report from './components/Listpapers_report';
 import Authorwisepapers from './components/Authorwisepapers';
+import Trackwisepapers from './components/Trackwisepapers';
 import List_committee_members from './components/List_committee_members';
 import Papers_status_last_upload_date from './components/Papers_status_last_upload_date';
 import Listoffirstauthors from './components/Listoffirstauthors';
@@ -58,6 +60,8 @@ function App() {
                   <Route path="/report" element={<Report />} />
                   <Route path="/listofpapers" element={<Listpapers_report />} />
                   <Route path="/authorwisepapers" element={<Authorwisepapers />} />
+                  <Route path="/trackwisepapers" element={<Trackwisepapers />} />
+                  <Route path="/paperdetails" element={<PaperDetails />} />
                   <Route path="/list_committee_members" element={<List_committee_members />} />
                   <Route path="/papers_status_last_upload_date" element={<Papers_status_last_upload_date />} />
                   <Route path="/listoffirstauthors" element={<Listoffirstauthors />} />
