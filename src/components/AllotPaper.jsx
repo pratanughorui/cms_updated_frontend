@@ -191,7 +191,7 @@ const PaperManagement = () => {
   };
 
   return (
-    <div className="p-4 space-y-4 md:space-y-0 md:grid md:grid-cols-1 md:gap-4 bg-slate-50">
+    <div className="p-4 mt-6 space-y-4 md:space-y-0 md:grid md:grid-cols-1 md:gap-4 bg-slate-50">
       {/* Home Icon */}
       <div className="w-full text-left mb-4">
         <img
@@ -490,7 +490,7 @@ const PaperManagement = () => {
           </div>
         </div>
         {/* for button */}
-        <div>
+        <div className="md:space-x-6 md:gap-4">
           {/* Base */}
 
           <a

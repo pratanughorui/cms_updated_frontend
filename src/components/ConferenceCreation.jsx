@@ -68,12 +68,12 @@ function ConferenceCreation() {
   }
 
   return (
-    <div className='w-full h-full border-3 shadow-sm p-3 mt-6  mb-5 bg-body-tertiary rounded bg-slate-50 overflow-auto'>
+    <div className='w-full h-full border-3 shadow-sm p-3  mb-5 bg-body-tertiary rounded bg-slate-50 overflow-auto'>
       
       <div className='flex items-center justify-center text-5xl m-5'>Create Conference</div>
       <div>
         
-          <form onSubmit={handleSubmit} className="space-y-6 m-6 p-5">
+          <form onSubmit={handleSubmit} className="space-y-6 m-6">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <label htmlFor="conference_title" className="block overflow-hidden rounded-md border border-gray-200 px-3 py-2 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600">
