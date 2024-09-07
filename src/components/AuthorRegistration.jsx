@@ -159,7 +159,6 @@ const AuthorRegistration = () => {
     //   });
     // setLoading(false);
     console.log(authorWorkData);
-    
   };
 
   const handleAddCoAuthor = () => {
@@ -230,7 +229,7 @@ const AuthorRegistration = () => {
       return;
     }
     console.log(paperID);
-    
+
     // setLoading(true);
     withdrawPaper(paperID)
       .then(() => {
@@ -280,9 +279,7 @@ const AuthorRegistration = () => {
       co_authors: coAuthorsData,
     };
     console.log(authorWorkData);
-    
-    
-  }
+  };
 
   return (
     <div className="container mx-auto">
@@ -597,7 +594,9 @@ const AuthorRegistration = () => {
                 )}
                 <input
                   type="file"
-                  className={`form-input mt-1 block w-full ${errors.pdfFile ? 'border-red-500' : ''}`}
+                  className={`form-input mt-1 block w-full ${
+                    errors.pdfFile ? "border-red-500" : ""
+                  }`}
                   onChange={(e) => setPdfFile(e.target.files[0])}
                 />
                 {errors.pdfFile && (
@@ -780,38 +779,37 @@ const AuthorRegistration = () => {
                   Add Co-Author
                 </button>
               </div>
-              
+
               <div className="flex justify-center md:space-x-6 md:gap-4">
-  {/* Submit or Edit Button */}
-  {editPaper ? (
-    <button
-      type="submit"
-      className="inline-block rounded border border-indigo-600 bg-indigo-600 px-7 py-2 text-sm font-medium bg-slate-300 text-black hover:bg-slate-500 hover:text-white focus:outline-none focus:ring active:text-indigo-500"
-      disabled={loading}
-    >
-      {loading ? "Submitting..." : "Submit"}
-    </button>
-  ) : (
-    <>
-      <button
+                {/* Submit or Edit Button */}
+                {editPaper ? (
+                  <button
+                    type="submit"
+                    className="inline-block rounded border border-indigo-600 bg-indigo-600 px-7 py-2 text-sm font-medium bg-slate-300 text-black hover:bg-slate-500 hover:text-white focus:outline-none focus:ring active:text-indigo-500"
+                    disabled={loading}
+                  >
+                    {loading ? "Submitting..." : "Submit"}
+                  </button>
+                ) : (
+                  <>
+                    {/* <button
         type="submit"
         onClick={handleFormEdit}
         className="inline-block rounded border border-indigo-600 bg-indigo-600 px-7 py-2 text-sm font-medium bg-slate-300 text-black hover:bg-slate-500 hover:text-white focus:outline-none focus:ring active:text-indigo-500"
         disabled={loading}
       >
         {loading ? "Submitting..." : "Edit Paper"}
-      </button>
-      <button
-        type="button"
-        className="bg-red-500 text-white px-5 py-1 rounded hover:bg-slate-500 hover:text-white focus:outline-none focus:ring active:text-indigo-500"
-        onClick={handleWithdrawButtonClick}
-      >
-        Withdraw Paper
-      </button>
-    </>
-  )}
-</div>
-
+      </button> */}
+                    <button
+                      type="button"
+                      className="bg-red-500 text-white px-5 py-1 rounded hover:bg-slate-500 hover:text-white focus:outline-none focus:ring active:text-indigo-500"
+                      onClick={handleWithdrawButtonClick}
+                    >
+                      Withdraw Paper
+                    </button>
+                  </>
+                )}
+              </div>
             </form>
           </div>
         </div>
