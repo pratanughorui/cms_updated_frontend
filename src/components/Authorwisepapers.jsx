@@ -68,10 +68,6 @@ function Authorwisepapers() {
 
                 <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{item.first_author_country}</td>
                 <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{item.co_authors}</td>
-
-
-
-
               </tr>
             ))}
           </tbody>

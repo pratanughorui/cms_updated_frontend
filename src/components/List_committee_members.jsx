@@ -8,6 +8,7 @@ function List_committee_members() {
   const [data, setData] = useState([]);
   const [committees, setCommittees] = useState([]);
   const [selectedCommitteeId, setSelectedCommitteeId] = useState('');
+  
   const navigate = useNavigate(); // <-- Initialize navigate
 
   useEffect(() => {
