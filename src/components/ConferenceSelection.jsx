@@ -52,7 +52,7 @@ function ConferenceSelection() {
   // };
 
   return (
-    <div className="w-full h-full border-3 shadow-sm p-3 mt-7 mb-5 bg-slate-50 rounded-lg overflow-auto">
+    <div className="w-full h-full border-3 shadow-sm p-3 mb-5 bg-slate-50 rounded-lg overflow-auto">
       {data ? (
         <div>
           Loading..

@@ -50,7 +50,7 @@ const Sidebar = () => {
     { title: 'Review Format', src: 'Search', path: '/review-format' },
     { title: 'Report', src: 'Chart', path: '/select-conference',subMenu: [
          {title:'List of Papers',path:'/listofpapers'},
-         {title:'Paper Details',path:'/paperdetails'},
+        //  {title:'Paper Details',path:'/paperdetails'},
          {title:'Authors-wise List of Papers',path:'/authorwisepapers'},
          {title:'Track-wise List of Papers',path:'/trackwisepapers'},
          {title:'TPC Members',path:'/tpcmembers'},

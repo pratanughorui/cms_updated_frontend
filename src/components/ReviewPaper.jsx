@@ -171,7 +171,7 @@ const ReviewPaper = () => {
   };
 
   return (
-    <div className="container mx-auto mt-8 px-4">
+    <div className="w-full h-full border border-3 shadow-sm p-3 bg-body-tertiary rounded bg-slate-50container mx-auto px-4">
       <div className="flex justify-between items-center mb-6">
         {/* Home Icon */}
         <div>

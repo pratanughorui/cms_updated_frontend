@@ -11,6 +11,7 @@ function Listoffirstauthors() {
     if (conference_id) {
       report_fetchfirstsuthors(conference_id).then((res) => {
         setData(res.data);
+        
       }).catch((err) => {
 
       })
